@@ -1,56 +1,91 @@
-import React, {memo, useEffect, useState} from "react";
-import {MultiSelect} from "primereact/multiselect";
+import React, {memo, useEffect, useRef, useState} from "react";
 import {InputText} from "primereact/inputtext";
 import {Checkbox} from "primereact/checkbox";
 import {Button} from "primereact/button";
 import {validateCustomerData} from "../util/vaildate";
-import {getUserSectors, postUser, updateUser} from "../service/user";
+import {Toast} from 'primereact/toast';
+import {TreeSelect} from 'primereact/treeselect';
+import {postUser, updateUser} from "../service/user";
 import styled from "styled-components";
 
 const AddCustomer = () => {
     const [customerId, setCustomerId] = useState("");
+    const toast = useRef(null);
+    const [nodes, setNodes] = useState(null);
+    const [selectedSectorId, setSelectedSectorId] = useState(null);
     const [customerName, setCustomerName] = useState("");
-    const [selectedSectorId,setSectorId] = useState("");
-    const [agreeToTerms,setAgreeToTerms] = useState(false);
+    const [agreeToTerms, setAgreeToTerms] = useState(false);
     const [sectors, setSectors] = useState([]);
 
     useEffect(() => {
         // if (!sectors) getUserSectors().then((e) => setSectors(e));
-        const testData = [
+        const nodeData = [
             {
-                label: 'food & beverage', code: 'FB',
-                items: [
-                    { label: 'Beverages', value: '1' },
-                    { label: 'Bakery', value: '2' },
-                    { label: 'Fish', value: '3' }
+                "key": "0",
+                "label": "Documents",
+                "children": [
+                    {
+                        "key": "0-0",
+                        "label": "Work"
+                    }
                 ]
             },
             {
-                label: 'Furniture', code: 'US',
-                items: [
-                    { label: 'Bathroom', value: '11' },
-                    { label: 'Bedroom', value: '12' },
-                    { label: 'Childrens room', value: '13' }
+                "key": "1",
+                "label": "Events",
+                "children": [
+                    {
+                        "key": "1-0",
+                        "label": "Meeting"
+                    },
+                    {
+                        "key": "1-1",
+                        "label": "Product Launch"
+                    },
+                    {
+                        "key": "1-2",
+                        "label": "Report Review"
+                    }
                 ]
             }
         ];
-        setSectors(testData)
+        setNodes(nodeData);
     }, [])
 
+
+    const showWarn = (body) => {
+        toast.current.show({severity: 'warn', summary: 'Hoiatus', detail: body, life: 3000});
+    }
+
+    const showSuccess = (body) => {
+        toast.current.show({severity: 'success', summary: 'Edu', detail: body, life: 3000});
+    }
+
     const submitForm = () => {
-        if (!validateCustomerData(customerName, agreeToTerms)) return;
-        if (!customerId) {
-            postUser(customerName, selectedSectorId, agreeToTerms).then((e) => {
-                setCustomerId(e.id);
-            });
+        if (!validateCustomerData(customerName, agreeToTerms)) {
+            showWarn("Viga sisend andmetes")
+            return;
         }
-        else {
-            updateUser(customerId, customerName, selectedSectorId, agreeToTerms);
+
+        const formattedSectorIds = Object.entries(selectedSectorId).map(([key, value]) => {
+            return key;
+        });
+
+        if (!customerId) {
+            postUser(customerName, formattedSectorIds).then((e) => {
+                setCustomerId(e.id);
+                showSuccess("loodud")
+            });
+        } else {
+            updateUser(customerId, customerName, formattedSectorIds).then(() => {
+                showSuccess("uuendatud");
+            });
         }
     }
 
     return(
         <UserFormStyle>
+            <Toast ref={toast}/>
             <h1> Add user </h1>
             <div className="name-input">
                 <span className="p-float-label">
@@ -59,10 +94,10 @@ const AddCustomer = () => {
                 </span>
             </div>
             <div className="sector-selector">
-                <MultiSelect id={"sector-selector"} showSelectAll={false} scrollHeight={"400px"} value={selectedSectorId} options={sectors} onChange={(e) => setSectorId(e.value)} optionLabel="label" optionGroupLabel="label" optionGroupChildren="items"
-                             placeholder="Select sector" />
+                <TreeSelect display="chip" placeholder="Select sector" value={selectedSectorId} scrollHeight={"400px"}
+                            options={nodes} onChange={(e) => setSelectedSectorId(e.value)} selectionMode="multiple"
+                            metaKeySelection={false} />
             </div>
-
             <div className="terms-checkbox">
                 <Checkbox inputId="binary" checked={agreeToTerms} onChange={e => setAgreeToTerms(!agreeToTerms)} />
                 <label htmlFor="binary">Agree to terms</label>

@@ -1,3 +1,4 @@
 export const validateCustomerData = (name, agreeToTerms) => {
-    return true;
+    return !(!agreeToTerms || name.length === 0);
+
 }

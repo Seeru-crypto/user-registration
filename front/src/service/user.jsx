@@ -26,4 +26,13 @@ export function getUserSectors(){
         .catch(function (error) {
             console.log({error});
         })
+
+}export function getAccounts(){
+    return axios.get('http://localhost:8880/accounts')
+        .then(function (response) {
+            return response.data
+        })
+        .catch(function (error) {
+            console.log({error});
+        })
 }

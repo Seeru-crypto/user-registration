@@ -32,7 +32,7 @@ public class Sector {
     private int value;
 
     @Column(name = "parent_id")
-    private int parentId;
+    private Long parentId;
 
     @OneToMany(cascade = ALL, orphanRemoval = true)
     @JoinColumn(name = "parent_id")

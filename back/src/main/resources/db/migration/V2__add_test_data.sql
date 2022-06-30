@@ -9,8 +9,8 @@ INSERT INTO "account" (name, date_added, agree_to_terms)
 VALUES ('account-1', '2022-05-08 12:46:58.668000 +00:00', true);
 
 INSERT INTO "sector" (name, value, parent_id)
-VALUES ('Machinery',10, 0),
-       ('food', 20, 0),
+VALUES ('Machinery',10, null),
+       ('food', 20, null),
        ('bakery', 21, 2),
        ('bisquits', 24, 3),
        ('Beverages', 22, 2);

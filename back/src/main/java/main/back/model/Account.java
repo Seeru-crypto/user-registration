@@ -53,6 +53,6 @@ public class Account {
             joinColumns = @JoinColumn(name = "account_id"),
             inverseJoinColumns = @JoinColumn(name = "sector_id")
     )
-    Set<Sector>selectedCourses = new HashSet<>();
+    Set<Sector> sectors = new HashSet<>();
 
 }

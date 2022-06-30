@@ -5,13 +5,15 @@ import {Button} from "primereact/button";
 import {validateCustomerData} from "../util/validate";
 import {Toast} from 'primereact/toast';
 import {TreeSelect} from 'primereact/treeselect';
-import {getUserSectors, postUser, updateUser} from "../service/user";
+import {getAccounts, getUserSectors, postUser, updateUser} from "../service/user";
 import styled from "styled-components";
+import AccountTable from "./account-table";
 
-const AddCustomer = () => {
+const AddAccount = () => {
     const [userId, setUserId] = useState("");
     const toast = useRef(null);
     const [sectors, setSectors] = useState(null);
+    const [users, setUsers] = useState(null);
     const [selectedSectors, setSelectedSectors] = useState(null);
     const [userName, setUserName] = useState("");
     const [agreeToTerms, setAgreeToTerms] = useState(false);
@@ -22,7 +24,7 @@ const AddCustomer = () => {
         if (!sectors) getUserSectors().then((response) => {
             setSectors(response.map((sector) => sectorToTree(sector)))
         });
-    }, [])
+      }, [])
 
     const sectorToTree = (sector) => {
         return {key: sector.id, label: sector.name, children: (sector.children.map((e) => sectorToTree(e)))}
@@ -73,10 +75,13 @@ const AddCustomer = () => {
             <div className="submit-button">
                 <Button onClick={() => submitForm()}>Submit</Button>
             </div>
+            <div className="table">
+                <AccountTable/>
+            </div>
             </UserFormStyle>
     )
 }
-export default memo(AddCustomer);
+export default memo(AddAccount);
 
 const UserFormStyle = styled.div`
   display: flex;
@@ -85,4 +90,8 @@ const UserFormStyle = styled.div`
   align-items: center;
   justify-items: center;
   font-family: -apple-system, system-ui;
+  
+  .table{
+    padding: 1rem;
+  }
 `

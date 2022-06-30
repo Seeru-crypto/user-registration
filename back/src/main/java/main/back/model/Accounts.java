@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 import java.time.Instant;
@@ -13,7 +14,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.FetchType.LAZY;
 
 @Getter
@@ -41,6 +41,10 @@ public class Accounts {
     @Column(name="date_updated")
     @PastOrPresent(message = "Date updated, must be in the present")
     private Instant dateUpdated;
+
+    @Column(name="agree_to_terms")
+    @NotNull
+    private boolean agreeToTerms;
 
     @ManyToMany(fetch = LAZY,
             cascade = MERGE)

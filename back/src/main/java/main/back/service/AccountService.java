@@ -26,6 +26,9 @@ public class AccountService {
     public Long save(AccountsDTO accountsDTO) {
         List<Long> sectorIds = sectorsService.findAllIds();
 
+        if (!accountsDTO.isAgreeToTerms()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Agree to terms is false");
+        }
         if (!sectorIds.containsAll(accountsDTO.getSelectedSectors()) || accountsDTO.getSelectedSectors().isEmpty()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No sector Id identified or doesnt match");
         }
@@ -34,7 +37,8 @@ public class AccountService {
         Accounts newAccount = new Accounts()
                 .setName(accountsDTO.getName())
                 .setDateAdded(Instant.now())
-                .setSelectedCourses(selectedSectors);
+                .setSelectedCourses(selectedSectors)
+                .setAgreeToTerms(true);
 
         return accountRepository.save(newAccount).getId();
     }
@@ -44,7 +48,6 @@ public class AccountService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Acc with given ID does not exist");
         }
         Set<Sectors> selectedSectors = sectorsService.getByIds(accountsDTO.getSelectedSectors());
-
 
         Accounts existingAccount = accountRepository.findById(accountsDTO.getId()).get();
         existingAccount

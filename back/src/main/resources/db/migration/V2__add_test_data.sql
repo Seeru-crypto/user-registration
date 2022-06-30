@@ -5,8 +5,8 @@ ALTER SEQUENCE account_id_seq RESTART WITH 1;
 ALTER SEQUENCE sector_id_seq RESTART WITH 1;
 ALTER SEQUENCE account_sectors_id_seq RESTART WITH 1;
 
-INSERT INTO "account" (name, date_added)
-VALUES ('account-1', '2022-05-08 12:46:58.668000 +00:00');
+INSERT INTO "account" (name, date_added, agree_to_terms)
+VALUES ('account-1', '2022-05-08 12:46:58.668000 +00:00', true);
 
 INSERT INTO "sector" (name, value, parent_id)
 VALUES ('Machinery',10, 0),

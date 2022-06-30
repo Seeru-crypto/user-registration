@@ -2,7 +2,7 @@ const axios = require('axios').default;
 
 export function postUser(name, sector, agreeToTerms){
     return axios.post('http://localhost:8880/account', {
-        name, selectedSectors: sector, agreeToTerms
+        name, selectedSectors: sector, agreeToTerms: String(agreeToTerms)
     })
         .then(function (response) {
             return response.data;

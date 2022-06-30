@@ -33,7 +33,7 @@ const AddCustomer = () => {
         });
 
         if (!userId) {
-            postUser(userName, formattedSectorIds).then((e) => {
+            postUser(userName, formattedSectorIds, agreeToTerms).then((e) => {
                 setUserId(e);
                 showSuccess("loodud")
             });

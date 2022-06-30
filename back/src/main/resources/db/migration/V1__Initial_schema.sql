@@ -15,9 +15,10 @@ CREATE TABLE sector
 CREATE TABLE account
 (
     id                BIGSERIAL                NOT NULL PRIMARY KEY,
-    name              text             NOT NULL,
+    name              text                     NOT NULL,
     date_added        timestamp with time zone NOT NULL,
-    date_updated      timestamp with time zone NULL
+    date_updated      timestamp with time zone NULL,
+    agree_to_terms     boolean                 NOT NULL
 );
 
 CREATE TABLE account_sectors

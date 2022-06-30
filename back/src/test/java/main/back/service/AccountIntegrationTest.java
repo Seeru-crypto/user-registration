@@ -56,8 +56,7 @@ class AccountIntegrationTest extends BaseIntegrationTest {
         mockMvc.perform(get("/accounts"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("length()").value(1))
-                .andExpect(jsonPath("$.[0].name").value(ACCCOUNT_NAME))
-                .andExpect(jsonPath("$.[0].selectedSectors.length()").value(1));
+                .andExpect(jsonPath("$.[0].name").value(ACCCOUNT_NAME));
     }
 
     @Test

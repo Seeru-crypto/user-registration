@@ -24,7 +24,6 @@ const AccountTable = () => {
                            emptyMessage="No Accounts found">
                     <Column field="name" header="Name"/>
                     <Column field="id" header="Id"/>
-                    <Column field="selectedSectors" header="Sectors"/>
                 </DataTable>
                 <Button className="refresh-btn" onClick={() => setRefresh(!refresh)}>Refresh</Button>
             </TableStyle>

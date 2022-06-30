@@ -1,0 +1,11 @@
+version: '2'
+services:
+  car-invoice-postgresql:
+    image: postgres:14.1
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=helmes
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - 8881:5432

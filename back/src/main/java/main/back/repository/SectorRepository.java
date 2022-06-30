@@ -1,9 +1,9 @@
 package main.back.repository;
 
-import main.back.model.Sectors;
+import main.back.model.Sector;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SectorRepository extends JpaRepository<Sectors, Long> {
+public interface SectorRepository extends JpaRepository<Sector, Long> {
 }

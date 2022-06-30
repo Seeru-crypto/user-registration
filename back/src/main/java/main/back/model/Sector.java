@@ -7,12 +7,10 @@ import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.FetchType.*;
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Getter
@@ -20,10 +18,9 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @ToString
 @Table(name = "sector")
-public class Sectors {
+public class Sector {
     @Id
-    @GeneratedValue(strategy= IDENTITY)
-    @Column(unique = true)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @NotBlank(message = "Name is mandatory")
@@ -36,5 +33,9 @@ public class Sectors {
 
     @Column(name = "parent_id")
     private int parentId;
+
+    @OneToMany(cascade = ALL, orphanRemoval = true)
+    @JoinColumn(name = "parent_id")
+    private List<Sector> children = new ArrayList<>();
 
 }

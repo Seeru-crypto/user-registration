@@ -1,32 +1,26 @@
 package main.back.controller;
 
 import lombok.RequiredArgsConstructor;
-import main.back.model.Accounts;
-import main.back.model.AccountsDTO;
+import main.back.model.Account;
+import main.back.model.AccountDto;
 import main.back.service.AccountService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = "account")
+@RequestMapping(path = "accounts")
 public class AccountController {
     private final AccountService accountService;
 
-    @GetMapping
-    public List<Accounts> findAll() {
-        return accountService.findAll();
-    }
-
     @PostMapping
-    public Long save(@Valid @RequestBody AccountsDTO accountsDTO) {
-        return accountService.save(accountsDTO);
+    public Long save(@Valid @RequestBody AccountDto accountDto) {
+        return accountService.save(accountDto);
     }
 
     @PutMapping
-    public Accounts update(@Valid @RequestBody AccountsDTO accountsDTO){
-        return accountService.update(accountsDTO);
+    public AccountDto update(@Valid @RequestBody AccountDto accountDto){
+        return accountService.update(accountDto);
     }
 }

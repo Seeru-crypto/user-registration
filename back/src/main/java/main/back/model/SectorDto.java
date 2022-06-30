@@ -4,20 +4,18 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @ToString
-public class SectorsDTO {
+public class SectorDto {
 
-    @Id
-    private Long key;
+    private Long id;
 
-    private String label;
+    private String name;
 
-    private List<SectorsDTO> children = new ArrayList<>();
+    private List<SectorDto> children = new ArrayList<>();
 
 }

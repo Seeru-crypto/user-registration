@@ -1,12 +1,13 @@
 package main.back.service;
 
 import lombok.RequiredArgsConstructor;
-import main.back.model.Accounts;
-import main.back.model.AccountsDTO;
-import main.back.model.Sectors;
+import main.back.model.Account;
+import main.back.model.AccountDto;
+import main.back.model.Sector;
 import main.back.repository.AccountRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
@@ -17,25 +18,27 @@ import java.util.Set;
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
-    private final SectorsService sectorsService;
+    private final SectorService sectorService;
 
-    public List<Accounts> findAll(){
+    @Transactional(readOnly = true)
+    public List<Account> findAll(){
         return accountRepository.findAll();
     }
 
-    public Long save(AccountsDTO accountsDTO) {
-        List<Long> sectorIds = sectorsService.findAllIds();
+    @Transactional
+    public Long save(AccountDto accountDto) {
+        List<Long> sectorIds = sectorService.findAllIds();
 
-        if (!accountsDTO.isAgreeToTerms()){
+        if (!accountDto.isAgreeToTerms()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Agree to terms is false");
         }
-        if (!sectorIds.containsAll(accountsDTO.getSelectedSectors()) || accountsDTO.getSelectedSectors().isEmpty()){
+        if (!sectorIds.containsAll(accountDto.getSelectedSectors()) || accountDto.getSelectedSectors().isEmpty()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No sector Id identified or doesnt match");
         }
-        Set<Sectors> selectedSectors = sectorsService.getByIds(accountsDTO.getSelectedSectors());
+        Set<Sector> selectedSectors = sectorService.getByIds(accountDto.getSelectedSectors());
 
-        Accounts newAccount = new Accounts()
-                .setName(accountsDTO.getName())
+        Account newAccount = new Account()
+                .setName(accountDto.getName())
                 .setDateAdded(Instant.now())
                 .setSelectedCourses(selectedSectors)
                 .setAgreeToTerms(true);
@@ -43,21 +46,25 @@ public class AccountService {
         return accountRepository.save(newAccount).getId();
     }
 
-    public Accounts update(AccountsDTO accountsDTO) {
-        if (!accountRepository.existsById(accountsDTO.getId())){
+    @Transactional
+    public AccountDto update(AccountDto accountDto) {
+        if (!accountRepository.existsById(accountDto.getId())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Acc with given ID does not exist");
         }
-        Set<Sectors> selectedSectors = sectorsService.getByIds(accountsDTO.getSelectedSectors());
+        Set<Sector> selectedSectors = sectorService.getByIds(accountDto.getSelectedSectors());
 
-        Accounts existingAccount = accountRepository.findById(accountsDTO.getId()).get();
+        Account existingAccount = accountRepository.findById(accountDto.getId()).get();
         existingAccount
                 .setDateUpdated(Instant.now())
-                .setName(accountsDTO.getName())
+                .setName(accountDto.getName())
                 .setSelectedCourses(selectedSectors);
-        return accountRepository.save(existingAccount);
+//        return accountRepository.save(existingAccount);
+
+        return new AccountDto().setName(existingAccount.getName());
     }
 
-    public Accounts getById(Long id) {
+    @Transactional(readOnly = true)
+    public Account getById(Long id) {
         return accountRepository.getReferenceById(id);
     }
 }

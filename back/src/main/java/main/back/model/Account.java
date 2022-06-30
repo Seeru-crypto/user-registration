@@ -21,7 +21,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @ToString
 @Table(name = "account")
-public class Accounts {
+public class Account {
     public static final int MAX_NAME_LEN = 26;
 
     @Id
@@ -53,6 +53,6 @@ public class Accounts {
             joinColumns = @JoinColumn(name = "account_id"),
             inverseJoinColumns = @JoinColumn(name = "sector_id")
     )
-    Set<Sectors>selectedCourses = new HashSet<>();
+    Set<Sector>selectedCourses = new HashSet<>();
 
 }

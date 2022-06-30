@@ -1,8 +1,8 @@
 package main.back.service;
 
-import main.back.model.Accounts;
-import main.back.model.AccountsDTO;
-import main.back.model.Sectors;
+import main.back.model.Account;
+import main.back.model.AccountDto;
+import main.back.model.Sector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,30 +15,30 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class AccountServiceTest extends BaseUserServiceTest {
-    Sectors createdSector;
+    Sector createdSector;
     List<Long> selectedCourses;
 
     @BeforeEach
     public void initEach() {
-        createdSector = sectorsService.save(createSector("sector", 2, 0));
+        createdSector = sectorService.save(createSector("sector", 2, 0));
         selectedCourses = new ArrayList<>(List.of(createdSector.getId()));
     }
 
     @Test
     @Transactional
     void save() {
-        AccountsDTO newUser = createAccountDto()
+        AccountDto newUser = createaccountDto()
                 .setSelectedSectors(selectedCourses);
         Long id = accountService.save(newUser);
-        Accounts createdAcc = accountService.getById(id);
+        Account createdAcc = accountService.getById(id);
         assertNotNull(id);
         assertEquals(TEST_ACC_NAME, createdAcc.getName());
     }
 
     @Test
     void findAll() {
-        accountService.save(createAccountDto());
-        List<Accounts> results = accountService.findAll();
+        accountService.save(createaccountDto());
+        List<Account> results = accountService.findAll();
         assertEquals(1, results.size());
     }
 
@@ -47,15 +47,15 @@ class AccountServiceTest extends BaseUserServiceTest {
     void update() {
         String newName = "new-name";
         assertNotNull(createdSector.getId());
-        AccountsDTO accountsDTO = createAccountDto().setSelectedSectors(selectedCourses);
-        Long newUserId = accountService.save(accountsDTO);
+        AccountDto accountDto = createaccountDto().setSelectedSectors(selectedCourses);
+        Long newUserId = accountService.save(accountDto);
         assertNotNull(newUserId);
         assertEquals(TEST_ACC_NAME, accountService.getById(newUserId).getName());
 
-        accountsDTO.setName(newName)
+        accountDto.setName(newName)
                 .setId(newUserId);
-        accountService.update(accountsDTO);
-        Accounts changedAcc = accountService.getById(accountsDTO.getId());
+        accountService.update(accountDto);
+        Account changedAcc = accountService.getById(accountDto.getId());
         assertEquals(newName, changedAcc.getName());
     }
 }

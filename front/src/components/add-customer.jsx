@@ -19,8 +19,15 @@ const AddCustomer = () => {
     const showSuccess = (body) => toast.current.show({severity: 'success', summary: 'Edu', detail: body, life: 3000});
 
     useEffect(() => {
-        if (!sectors) getUserSectors().then((e) => setSectors(e));
+        if (!sectors) getUserSectors().then((response) => {
+            setSectors(response.map((sector) => sectorToTree(sector)))
+        });
     }, [])
+
+    const sectorToTree = (sector) => {
+        return {key: sector.id, label: sector.name, children: (sector.children.map((e) => sectorToTree(e)))}
+    };
+
 
     const submitForm = () => {
         if (!validateCustomerData(userName, agreeToTerms, selectedSectors)) {

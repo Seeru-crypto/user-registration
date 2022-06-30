@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class AccountsDTO {
+public class AccountDto {
 
     @Id
     private Long id;

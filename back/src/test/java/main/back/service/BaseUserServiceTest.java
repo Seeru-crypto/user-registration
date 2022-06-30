@@ -15,5 +15,5 @@ public class BaseUserServiceTest {
     AccountService accountService;
 
     @Autowired
-    SectorsService sectorsService;
+    SectorService sectorService;
 }

@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    username: "root"
+    password: "root"
+    url: jdbc:postgresql://localhost:8881/helmes
+    driverClassName: org.postgresql.Driver
+server:
+  port : 8880
+
+FRONT_URL: "http://localhost:3000/"

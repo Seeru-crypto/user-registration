@@ -2,6 +2,8 @@ package main.back.service;
 
 import lombok.RequiredArgsConstructor;
 import main.back.model.Accounts;
+import main.back.model.AccountsDTO;
+import main.back.model.Sectors;
 import main.back.repository.AccountRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -20,20 +23,35 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
-    public Accounts save(Accounts accounts) {
-        if (!sectorsService.isSetElementsValid(accounts.getSelectedCourses())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+    public Long save(AccountsDTO accountsDTO) {
+        List<Long> sectorIds = sectorsService.findAllIds();
+
+        if (!sectorIds.containsAll(accountsDTO.getSelectedSectors()) || accountsDTO.getSelectedSectors().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No sector Id identified or doesnt match");
         }
-        accounts.setDateAdded(Instant.now());
-        return accountRepository.save(accounts);
+        Set<Sectors> selectedSectors = sectorsService.getByIds(accountsDTO.getSelectedSectors());
+
+        Accounts newAccount = new Accounts()
+                .setName(accountsDTO.getName())
+                .setDateAdded(Instant.now())
+                .setSelectedCourses(selectedSectors);
+
+        return accountRepository.save(newAccount).getId();
     }
 
-    public Accounts update(Accounts accounts) {
-        if (!accountRepository.existsById(accounts.getId())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+    public Accounts update(AccountsDTO accountsDTO) {
+        if (!accountRepository.existsById(accountsDTO.getId())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Acc with given ID does not exist");
         }
-        accounts.setDateUpdated(Instant.now());
-        return accountRepository.save(accounts);
+        Set<Sectors> selectedSectors = sectorsService.getByIds(accountsDTO.getSelectedSectors());
+
+
+        Accounts existingAccount = accountRepository.findById(accountsDTO.getId()).get();
+        existingAccount
+                .setDateUpdated(Instant.now())
+                .setName(accountsDTO.getName())
+                .setSelectedCourses(selectedSectors);
+        return accountRepository.save(existingAccount);
     }
 
     public Accounts getById(Long id) {

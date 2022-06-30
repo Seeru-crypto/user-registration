@@ -2,6 +2,7 @@ package main.back.controller;
 
 import lombok.RequiredArgsConstructor;
 import main.back.model.Accounts;
+import main.back.model.AccountsDTO;
 import main.back.service.AccountService;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +21,12 @@ public class AccountController {
     }
 
     @PostMapping
-    public Accounts save(@Valid @RequestBody Accounts accounts) {
-        return  accountService.save(accounts);
+    public Long save(@Valid @RequestBody AccountsDTO accountsDTO) {
+        return accountService.save(accountsDTO);
     }
 
     @PutMapping
-    public Accounts update(@Valid @RequestBody Accounts accounts){
-        return accountService.update(accounts);
+    public Accounts update(@Valid @RequestBody AccountsDTO accountsDTO){
+        return accountService.update(accountsDTO);
     }
 }

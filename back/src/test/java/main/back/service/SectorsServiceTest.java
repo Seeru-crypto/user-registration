@@ -1,7 +1,7 @@
 package main.back.service;
 
-import main.back.model.SectorDTO;
 import main.back.model.Sectors;
+import main.back.model.SectorsDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,13 +26,13 @@ class SectorsServiceTest extends BaseUserServiceTest {
 
     @Test
     void getAllSectorChildren_ReturnsEmptyListIfNoChildren() {
-        List<SectorDTO> res = sectorsService.getAllSectorChildren(sectorsService.findAll(), sectorWithoutChild, new ArrayList<>());
+        List<SectorsDTO> res = sectorsService.getAllSectorChildren(sectorsService.findAll(), sectorWithoutChild, new ArrayList<>());
         assertEquals(0, res.size());
     }
 
     @Test
     void getAllSectorChildren_ReturnsTwoChildObj() {
-        List<SectorDTO> res = sectorsService.getAllSectorChildren(sectorsService.findAll(), sectorWithChild, new ArrayList<>());
+        List<SectorsDTO> res = sectorsService.getAllSectorChildren(sectorsService.findAll(), sectorWithChild, new ArrayList<>());
         assertEquals(2, res.size());
         assertEquals("sector-with-parent", res.get(0).getLabel());
     }
@@ -45,19 +45,19 @@ class SectorsServiceTest extends BaseUserServiceTest {
     }
 
     @Test
-    void getAllSectorChildren_ReturnsTwoChildObj_ReturnsChildObjHirearch(){
+    void getAllSectorChildren_ReturnsTwoChildObj_ReturnsChildObjHierarchy() {
         Sectors thirdChild = sectorsService.save(createSector("child-3", 6, 2));
-        List<SectorDTO> res = sectorsService.getAllSectorChildren(sectorsService.findAll(), sectorWithChild, new ArrayList<>());
+        List<SectorsDTO> res = sectorsService.getAllSectorChildren(sectorsService.findAll(), sectorWithChild, new ArrayList<>());
         assertEquals(2, res.size());
         assertNotNull(res.get(0).getChildren());
-        assertEquals(thirdChild.getName() ,res.get(0).getChildren().get(0).getLabel());
+        assertEquals(thirdChild.getName(), res.get(0).getChildren().get(0).getLabel());
         assertEquals(0, res.get(1).getChildren().size());
     }
 
     @Test
-    void findAllDto_returnsDtoHirearch(){
+    void findAllDto_returnsDtoHierarchy() {
         sectorsService.save(createSector("child-3", 6, 2));
-        List<SectorDTO> res = sectorsService.findAllDto();
+        List<SectorsDTO> res = sectorsService.findAllDto();
         assertNotNull(res);
         assertEquals(2, res.get(0).getChildren().size());
         assertEquals(1, res.get(0).getChildren().get(0).getChildren().size());

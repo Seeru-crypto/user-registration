@@ -11,13 +11,12 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class SectorDTO {
+public class AccountsDTO {
 
     @Id
-    private Long key;
+    private Long id;
 
-    private String label;
+    private String name;
 
-    private List<SectorDTO> children = new ArrayList<>();
-
+    private List<Long> selectedSectors = new ArrayList<>();
 }

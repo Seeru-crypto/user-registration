@@ -1,11 +1,11 @@
 package main.back;
 
 import main.back.model.Accounts;
+import main.back.model.AccountsDTO;
 import main.back.model.Sectors;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 public class TestObject {
@@ -14,9 +14,15 @@ public class TestObject {
     public static int TEST_SECTOR_VALUE = 1234;
 
 
-    public static Accounts createUser(){
+    public static Accounts createAccount(){
         return new Accounts()
                 .setName(TEST_ACC_NAME);
+    };
+
+    public static AccountsDTO createAccountDto(){
+        return new AccountsDTO()
+                .setName(TEST_ACC_NAME)
+                .setSelectedSectors(new ArrayList<>(List.of(1L)));
     };
 
     public static Sectors createSector(){

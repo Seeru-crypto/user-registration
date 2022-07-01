@@ -4,15 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @Setter
@@ -27,5 +22,5 @@ public class AccountDto {
     @NotNull
     private boolean agreeToTerms;
 
-    private List<Long> selectedSectors = new ArrayList<>();
+    private Set<SectorDto> sectors = new HashSet<>();
 }

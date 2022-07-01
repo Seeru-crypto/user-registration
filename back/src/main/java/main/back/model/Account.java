@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,4 +56,9 @@ public class Account {
     )
     Set<Sector> sectors = new HashSet<>();
 
+    public Account setSectors(Collection<Sector> sectors) {
+        this.sectors.clear();
+        this.sectors.addAll(sectors);
+        return this;
+    }
 }

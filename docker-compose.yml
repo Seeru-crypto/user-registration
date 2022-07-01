@@ -1,6 +1,6 @@
 version: '2'
 services:
-  car-invoice-postgresql:
+  db:
     image: postgres:14.1
     environment:
       - POSTGRES_USER=root

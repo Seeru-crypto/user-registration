@@ -17,7 +17,6 @@ public class SectorController {
 
     @GetMapping
     public List<SectorDto> findAll() {
-
-        return sectorMapper.toDto(sectorService.findAll());
+        return sectorMapper.toDtos(sectorService.findAll());
     }
 }

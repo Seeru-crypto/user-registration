@@ -3,6 +3,7 @@ package main.back.service;
 import main.back.model.Account;
 import main.back.model.AccountDto;
 import main.back.model.Sector;
+import main.back.model.SectorDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -37,7 +38,7 @@ class AccountIntegrationTest extends BaseIntegrationTest {
         AccountDto accountDto = new AccountDto()
                 .setAgreeToTerms(ACCCOUNT_AGREE_TO_TERMS)
                 .setName(ACCCOUNT_NAME)
-                .setSelectedSectors(List.of(sector.getId()));
+                .setSectors(Set.of(new SectorDto().setId(sector.getId())));
 
         mockMvc.perform(post("/accounts")
                         .contentType(APPLICATION_JSON)
@@ -71,9 +72,7 @@ class AccountIntegrationTest extends BaseIntegrationTest {
                 .setId(account.getId())
                 .setAgreeToTerms(account.isAgreeToTerms())
                 .setName(newName)
-                .setSelectedSectors(account.getSectors().stream()
-                        .map(Sector::getId)
-                        .toList());
+                .setSectors(Set.of(new SectorDto().setId(sector.getId())));
 
         mockMvc.perform(put("/accounts")
                         .contentType(APPLICATION_JSON)

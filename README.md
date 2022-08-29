@@ -1,4 +1,4 @@
-# helmes-homework
+# user-registration
 
 ## Description
 Given application allows users to create a new account and change their data during the session.

@@ -24,6 +24,8 @@ function App() {
         dispatch(getSectors());
     }, [])
     // TODO: Create proper landing page with a user´s table, which shows first name, seat and sector
+
+    //TODO: Add toast notification
     return (
         <AppStyle>
             <p>Number of users: {users.length}</p>
@@ -56,6 +58,5 @@ const AppStyle = styled.div`
     }
   }
 `
-
 export default App;
 

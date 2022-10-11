@@ -9,11 +9,11 @@ import FormErrorMessage from "../util/FormErrorMessage";
 import FormInput from "../util/FormInput";
 import Title from "../util/Title";
 import {TreeSelect} from 'primereact/treeselect';
-
-const noNummbersRegex = /^([^0-9]*)$/;
-const onlyNumbersRegex = /^(0|[1-9][0-9]*)$/;
+import {noNumbersRegex, onlyNumbersRegex} from "../../constants";
 
 const PersonalDataForm = () => {
+    //TODO: Add dropdown empty input control
+    //TODO: Add proper styling to dropwon
     const dispatch = useAppDispatch();
     const currentStepIndex = useAppSelector(state => state.app.currentStep)
     const userFirstName = useAppSelector(state => state.user.firstName)
@@ -59,16 +59,17 @@ const PersonalDataForm = () => {
 
     const firstNameOptions = {
         required: "First name is a required field", pattern: {
-            value: noNummbersRegex,
+            value: noNumbersRegex,
             message: "First name should not contain numbers"
         }
     }
     const lastNameOptions = {
         required: "Last name is a required field", pattern: {
-            value: noNummbersRegex,
+            value: noNumbersRegex,
             message: "Last name should not contain numbers"
         }
     };
+
     const ageOptions = {
         required: "Age must be a number",
         min: {
@@ -141,7 +142,7 @@ const PersonalDataStyle = styled.div`
     justify-content: center;
   }
 
-  .inputGroup{
+  .inputGroup {
     display: flex;
     flex-direction: column;
     gap: var(--size100)

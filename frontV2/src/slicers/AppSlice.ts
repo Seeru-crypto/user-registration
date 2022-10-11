@@ -1,16 +1,14 @@
 import {createAsyncThunk, createSlice, isPending, isRejected} from '@reduxjs/toolkit';
 import axios from "axios";
 import {UserState} from "./UserSlice";
-
-const SECTOR_URL = "sectors"
-const NEW_USER_URL = "accounts";
-
+import {NEW_USER_URL, SECTOR_URL} from "../constants";
 
 interface AppState {
     currentStep: number;
     sectors: SectorProps[];
     errorMessage: string;
     loading: boolean;
+    // TODO: Create loading spinner
     users: UserState[]
 }
 export interface SectorProps {
@@ -32,10 +30,6 @@ export const saveUser = createAsyncThunk('save_user', async (userData: UserState
     thunkAPI.dispatch(getUsers());
     return res;
 })
-// export const getUserById = createAsyncThunk('get_user_by_id', async (id: number) => {
-//     return (await axios.get<SectorProps[]>(SECTOR_URL)).data;
-// })
-
 
 const initialState: AppState = {
     currentStep: 0,
@@ -72,7 +66,6 @@ export const appSlice = createSlice({
             })
     },
 });
-
 
 export const {
     setCurrentStep,

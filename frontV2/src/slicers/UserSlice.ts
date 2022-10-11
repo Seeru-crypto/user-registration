@@ -1,6 +1,4 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import axios from "axios";
-import {getUsers} from "./AppSlice";
+import {createSlice} from '@reduxjs/toolkit';
 
 export interface UserPersonalDataForm {
     firstName: string,
@@ -19,9 +17,9 @@ export interface UserMicDataForm {
     allergies: string;
 }
 
-
 export interface UserState extends UserPersonalDataForm, UserContactDataForm, UserMicDataForm{}
 
+// TODO: create UserForm interface and created usersInterface
 
 const initialState: UserState = {
 
@@ -35,16 +33,12 @@ const initialState: UserState = {
     food: "",
     allergies: "",
 };
-const NEW_USER_URL = "accounts";
-
-
 
 export const appSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
         setPersonalData: (state, action) => {
-            console.log(action.payload)
             state.firstName = action.payload.firstName;
             state.lastName = action.payload.lastName;
             state.age = action.payload.age;

@@ -17,10 +17,26 @@ public class AccountDto {
     @Id
     private Long id;
 
-    private String name;
+    private String firstName;
+
+    private String lastName;
+
+    private int age;
+
+    // private int sectorId;
+
+    private String phoneNumber;
+
+    private String emailAddress;
+
+    private String seatNr;
+
+    private String foodPreference;
+
+    private String allergyInfo;
 
     @NotNull
     private boolean agreeToTerms;
 
-    private Set<SectorDto> sectors = new HashSet<>();
+    //private Set<SectorDto> sectors = new HashSet<>();
 }

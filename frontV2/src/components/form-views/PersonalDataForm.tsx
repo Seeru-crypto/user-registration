@@ -1,13 +1,14 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../store";
 import styled from "styled-components";
 import {useForm} from "react-hook-form";
 import {setPersonalData, UserPersonalDataForm} from "../../slicers/UserSlice";
-import {setCurrentStep} from "../../slicers/AppSlice";
+import {SectorProps, setCurrentStep} from "../../slicers/AppSlice";
 import FormButton from "../util/FormButton";
 import FormErrorMessage from "../util/FormErrorMessage";
 import FormInput from "../util/FormInput";
 import Title from "../util/Title";
+import {TreeSelect} from 'primereact/treeselect';
 
 const noNummbersRegex = /^([^0-9]*)$/;
 const onlyNumbersRegex =  /^(0|[1-9][0-9]*)$/;
@@ -18,19 +19,41 @@ const PersonalDataForm = () => {
     const userFirstName = useAppSelector(state => state.user.firstName)
     const userLastName = useAppSelector(state => state.user.lastName)
     const userAge = useAppSelector(state => state.user.age)
-    const userSecotr = useAppSelector(state => state.user.sector)
+    const userSectorId = useAppSelector<number>(state => state.user.sectorId)
+    const sectors = useAppSelector<SectorProps[]>(state => state.app.sectors);
+    const [selectedSector, setSelectedSector] = useState<any>(null);
+    const [formattedSectors, setFormattedSectors] = useState<FormattedSector[]>([])
+
+    interface FormattedSector{
+        key: number;
+        label: string;
+        children: any;
+    }
+
+    useEffect(() => {
+        setSelectedSector(userSectorId)
+    }, [userSectorId])
+
+    useEffect(() => {
+        const formattedList = sectors.map((sector : SectorProps) => sectorToTree(sector));
+        setFormattedSectors(formattedList);
+    }, [sectors]);
 
     const {register, handleSubmit, formState: {errors}} = useForm({
         defaultValues: {
             firstName: userFirstName ? userFirstName : "",
             lastName: userLastName ? userLastName : "",
             age: userAge ? userAge : null,
-            sector: userSecotr ? userSecotr : "",
+            sectorId: userSectorId ? userSectorId : 0,
         }
     });
 
+    function sectorToTree (sector : SectorProps) : FormattedSector {
+        return {key: sector.id, label: sector.name, children: (sector.children.map((e) => sectorToTree(e)))}
+    }
+
     const onSubmit = (data: UserPersonalDataForm) => {
-        dispatch(setPersonalData(data))
+        dispatch(setPersonalData({...data, sectorId: selectedSector }))
         dispatch(setCurrentStep(currentStepIndex + 1))
     }
 
@@ -82,11 +105,13 @@ const PersonalDataForm = () => {
                     <FormErrorMessage value={errors.age?.message}/>
                 </div>
 
-                <div className="inputGroup">
-                    <FormInput register={register} options={sectorOptions} placeholder="sector" name="sector"/>
-                    <FormErrorMessage value={errors.sector?.message}/>
-                </div>
+                <div className="sector-selector">
+                    <TreeSelect display="chip" placeholder="Select sector" {...register("sectorId", sectorOptions)} value={selectedSector} scrollHeight={"400px"}
+                                options={formattedSectors} onChange={(e) => setSelectedSector(e.value)} selectionMode="single"
+                                metaKeySelection={false}/>
+                    <FormErrorMessage value={errors.sectorId?.message}/>
 
+                </div>
 
                 <div className="buttonGrp">
                     <FormButton type="submit" value="next" testId="submit"/>

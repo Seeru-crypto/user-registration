@@ -16,7 +16,7 @@ interface AppState {
 export interface SectorProps {
     id: number,
     name: string,
-    children: SectorProps[] | undefined
+    children: SectorProps[]
 }
 
 export const getSectors = createAsyncThunk('get_sectors', async () => {
@@ -27,16 +27,15 @@ export const getUsers = createAsyncThunk('get_users', async () => {
     return (await axios.get<UserState[]>(NEW_USER_URL)).data;
 })
 
+export const saveUser = createAsyncThunk('save_user', async (userData: UserState, thunkAPI) => {
+    const res = await axios.post<number>(NEW_USER_URL, {...userData, agreeToTerms: true})
+    thunkAPI.dispatch(getUsers());
+    return res;
+})
 // export const getUserById = createAsyncThunk('get_user_by_id', async (id: number) => {
 //     return (await axios.get<SectorProps[]>(SECTOR_URL)).data;
 // })
 
-export const saveSector = createAsyncThunk('save_sector', async (userData: UserState, thunkAPI) => {
-    const res = await axios.post<number>(NEW_USER_URL, userData)
-    thunkAPI.dispatch(getUsers());
-    // thunkAPI.dispatch(getUserById(res.data))
-    return res;
-})
 
 const initialState: AppState = {
     currentStep: 0,
@@ -73,6 +72,8 @@ export const appSlice = createSlice({
             })
     },
 });
+
+
 export const {
     setCurrentStep,
 } = appSlice.actions;

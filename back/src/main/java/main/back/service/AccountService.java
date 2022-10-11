@@ -18,6 +18,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
+
     private final SectorMapper sectorMapper;
 
     @Transactional(readOnly = true)
@@ -31,13 +32,20 @@ public class AccountService {
         if (!accountDto.isAgreeToTerms()) {
             throw new ResponseStatusException(BAD_REQUEST, "Cannot create account without agreeing to terms");
         }
-        if (accountDto.getSectors().isEmpty()) {
-            throw new ResponseStatusException(BAD_REQUEST, "No sector selected");
-        }
+        //if (accountDto.getSectors().isEmpty()) {
+        //    throw new ResponseStatusException(BAD_REQUEST, "No sector selected");
+        //}
         Account newAccount = new Account()
-                .setName(accountDto.getName())
+                .setFirstName(accountDto.getFirstName())
+                .setLastName(accountDto.getLastName())
+                .setAge(accountDto.getAge())
+                .setPhoneNumber(accountDto.getPhoneNumber())
+                .setEmailAddress(accountDto.getEmailAddress())
+                .setSeatNr(accountDto.getSeatNr())
+                .setFoodPreference(accountDto.getFoodPreference())
+                .setAllergyInfo(accountDto.getAllergyInfo())
                 .setDateAdded(Instant.now())
-                .setSectors(sectorMapper.toEntities(accountDto.getSectors()))
+         //       .setSectors(sectorMapper.toEntities(accountDto.getSectors()))
                 .setAgreeToTerms(true);
         return accountRepository.save(newAccount).getId();
     }
@@ -50,14 +58,22 @@ public class AccountService {
         if (!accountDto.isAgreeToTerms()) {
             throw new ResponseStatusException(BAD_REQUEST, "Cannot update account without agreeing to terms");
         }
-        if (accountDto.getSectors().isEmpty()) {
-            throw new ResponseStatusException(BAD_REQUEST, "No sector selected");
-        }
+      //  if (accountDto.getSectors().isEmpty()) {
+      //      throw new ResponseStatusException(BAD_REQUEST, "No sector selected");
+      //  }
 
         return getById(accountDto.getId())
                 .setDateUpdated(Instant.now())
-                .setName(accountDto.getName())
-                .setSectors(sectorMapper.toEntities(accountDto.getSectors()));
+                .setFirstName(accountDto.getFirstName())
+                .setLastName(accountDto.getLastName())
+                .setAge(accountDto.getAge())
+                .setPhoneNumber(accountDto.getPhoneNumber())
+                .setEmailAddress(accountDto.getEmailAddress())
+                .setSeatNr(accountDto.getSeatNr())
+                .setFoodPreference(accountDto.getFoodPreference())
+                .setAgreeToTerms(true)
+                .setAllergyInfo(accountDto.getAllergyInfo());
+//                .setSectors(sectorMapper.toEntities(accountDto.getSectors()));
     }
 
     @Transactional(readOnly = true)

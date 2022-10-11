@@ -1,10 +1,12 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import axios from "axios";
+import {getUsers} from "./AppSlice";
 
 export interface UserPersonalDataForm {
     firstName: string,
     lastName: string,
     age: number | null,
-    sector: string
+    sectorId: number
 }
 export interface UserContactDataForm {
     phone: number | null;
@@ -26,13 +28,16 @@ const initialState: UserState = {
     firstName: "",
     lastName: "",
     age: 0,
-    sector: "",
+    sectorId: 0,
     phone: 0,
     email: "",
     seat: 0,
     food: "",
     allergies: "",
 };
+const NEW_USER_URL = "accounts";
+
+
 
 export const appSlice = createSlice({
     name: 'user',
@@ -43,7 +48,7 @@ export const appSlice = createSlice({
             state.firstName = action.payload.firstName;
             state.lastName = action.payload.lastName;
             state.age = action.payload.age;
-            state.sector = action.payload.sector;
+            state.sectorId = action.payload.sectorId;
         },
         setContactData: (state, action) => {
             state.phone = action.payload.phone;

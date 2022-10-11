@@ -2,12 +2,27 @@ import React from "react";
 import styled from "styled-components";
 import {useAppDispatch, useAppSelector} from "../../store";
 import FormButton from "../util/FormButton";
-import {setCurrentStep} from "../../slicers/AppSlice";
+import {saveUser, setCurrentStep} from "../../slicers/AppSlice";
 import Title from "../util/Title";
+import {UserState} from "../../slicers/UserSlice";
 
 const RegistrationOverview = (): JSX.Element => {
-    const {firstName, lastName, age, phone, email, seat, food, allergies} = useAppSelector(state => state.user)
+    const {firstName, lastName, age, phone, email, seat, food, allergies, sectorId} = useAppSelector(state => state.user)
     const currentStepIndex = useAppSelector(state => state.app.currentStep)
+
+    function onSubmit(){
+        const userDto : any = {
+            firstName,
+            lastName,
+            age,
+            phone,
+            email,
+            seat,
+            food,
+            allergies
+        };
+        dispatch(saveUser(userDto));
+    }
 
     const dispatch = useAppDispatch();
     return (
@@ -31,7 +46,7 @@ const RegistrationOverview = (): JSX.Element => {
             <div className="buttonGrp">
                 <FormButton type="button" testId="back" onClick={() => dispatch(setCurrentStep(currentStepIndex - 1))}
                             value="back"/>
-                <FormButton type="button" testId="confirm" onClick={() => alert("form submitted")} value="confirm"/>
+                <FormButton type="button" testId="confirm" onClick={() => onSubmit()} value="confirm"/>
             </div>
         </OverviewStyle>
     )

@@ -1,6 +1,6 @@
 import React from "react";
-import styled from "styled-components";
 import {UseFormRegister} from "react-hook-form";
+import styled from "styled-components";
 
 interface FormInputProps {
     placeholder?: string;

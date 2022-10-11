@@ -11,7 +11,7 @@ import Title from "../util/Title";
 import {TreeSelect} from 'primereact/treeselect';
 
 const noNummbersRegex = /^([^0-9]*)$/;
-const onlyNumbersRegex =  /^(0|[1-9][0-9]*)$/;
+const onlyNumbersRegex = /^(0|[1-9][0-9]*)$/;
 
 const PersonalDataForm = () => {
     const dispatch = useAppDispatch();
@@ -21,21 +21,21 @@ const PersonalDataForm = () => {
     const userAge = useAppSelector(state => state.user.age)
     const userSectorId = useAppSelector<number>(state => state.user.sectorId)
     const sectors = useAppSelector<SectorProps[]>(state => state.app.sectors);
-    const [selectedSector, setSelectedSector] = useState<any>(null);
+    const [selectedSector, setSelectedSector] = useState<any>(undefined);
     const [formattedSectors, setFormattedSectors] = useState<FormattedSector[]>([])
 
-    interface FormattedSector{
+    interface FormattedSector {
         key: number;
         label: string;
         children: any;
     }
 
     useEffect(() => {
-        setSelectedSector(userSectorId)
+        if (userSectorId !== 0) setSelectedSector(userSectorId)
     }, [userSectorId])
 
     useEffect(() => {
-        const formattedList = sectors.map((sector : SectorProps) => sectorToTree(sector));
+        const formattedList = sectors.map((sector: SectorProps) => sectorToTree(sector));
         setFormattedSectors(formattedList);
     }, [sectors]);
 
@@ -48,12 +48,12 @@ const PersonalDataForm = () => {
         }
     });
 
-    function sectorToTree (sector : SectorProps) : FormattedSector {
+    function sectorToTree(sector: SectorProps): FormattedSector {
         return {key: sector.id, label: sector.name, children: (sector.children.map((e) => sectorToTree(e)))}
     }
 
     const onSubmit = (data: UserPersonalDataForm) => {
-        dispatch(setPersonalData({...data, sectorId: selectedSector }))
+        dispatch(setPersonalData({...data, sectorId: selectedSector}))
         dispatch(setCurrentStep(currentStepIndex + 1))
     }
 
@@ -75,23 +75,24 @@ const PersonalDataForm = () => {
             value: 0,
             message: "Age should be positive"
         },
-        pattern:{
+        pattern: {
             value: onlyNumbersRegex,
             message: "Age must be a number"
         }
     }
 
-    const sectorOptions= {
+    const sectorOptions = {
         required: "Sector must be selected!",
     }
 
     return (
         <PersonalDataStyle>
-            <Title value="Step 1" />
+            <Title value="Step 1"/>
             <form className="dataForm" onSubmit={handleSubmit(onSubmit)}>
 
                 <div className="inputGroup">
-                    <FormInput register={register} options={firstNameOptions} name="firstName" placeholder="first name"/>
+                    <FormInput register={register} options={firstNameOptions} name="firstName"
+                               placeholder="first name"/>
                     <FormErrorMessage value={errors.firstName?.message}/>
                 </div>
 
@@ -106,8 +107,10 @@ const PersonalDataForm = () => {
                 </div>
 
                 <div className="sector-selector">
-                    <TreeSelect display="chip" placeholder="Select sector" {...register("sectorId", sectorOptions)} value={selectedSector} scrollHeight={"400px"}
-                                options={formattedSectors} onChange={(e) => setSelectedSector(e.value)} selectionMode="single"
+                    <TreeSelect display="chip" placeholder="Select sector" {...register("sectorId", sectorOptions)}
+                                value={selectedSector} scrollHeight={"400px"}
+                                options={formattedSectors} onChange={(e) => setSelectedSector(e.value)}
+                                selectionMode="single"
                                 metaKeySelection={false}/>
                     <FormErrorMessage value={errors.sectorId?.message}/>
 

@@ -11,15 +11,19 @@ const RegistrationOverview = (): JSX.Element => {
     const currentStepIndex = useAppSelector(state => state.app.currentStep)
 
     function onSubmit(){
+        //TODO: Fix data schema on front-end so that it would be 1:1 with back-end.
+        //TODO: add better support for sector interface and remove any dataType
         const userDto : any = {
             firstName,
             lastName,
             age,
-            phone,
-            email,
-            seat,
-            food,
-            allergies
+            phoneNumber: phone,
+            emailAddress: email,
+            seatNr: seat,
+            foodPreference: food,
+            allergyInfo: allergies,
+            agreeToTerms: true,
+            sectors: [{id:sectorId}]
         };
         dispatch(saveUser(userDto));
     }

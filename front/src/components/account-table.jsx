@@ -17,22 +17,21 @@ const AccountTable = () => {
         });
     }, [refresh])
 
-    const sectorBodyTemplate = (rowData) => {
+/*    const sectorBodyTemplate = (rowData) => {
         const res = rowData.sectors.map((e) => `${e.name}, `);
         var lastElement = res.pop();
         lastElement = lastElement.substr(0, lastElement.length-2)
         res.push(lastElement);
         return res;
-    }
+    }*/
 
     return (
         <div>
             <TableStyle>
                 <DataTable value={accountList} loading={loading} dataKey={"id"} rowHover
                            emptyMessage="No Accounts found">
-                    <Column field="name" header="Name"/>
+                    <Column field="firstName" header="firstName"/>
                     <Column field="id" header="Id"/>
-                    <Column field="sectors" body={sectorBodyTemplate} header="sectors"/>
                 </DataTable>
                 <Button className="refresh-btn" onClick={() => setRefresh(!refresh)}>Refresh</Button>
             </TableStyle>

@@ -23,8 +23,6 @@ public class AccountDto {
 
     private int age;
 
-    // private int sectorId;
-
     private String phoneNumber;
 
     private String emailAddress;
@@ -38,5 +36,5 @@ public class AccountDto {
     @NotNull
     private boolean agreeToTerms;
 
-    //private Set<SectorDto> sectors = new HashSet<>();
+    private Set<SectorDto> sectors = new HashSet<>();
 }

@@ -22,7 +22,7 @@ public class AccountService {
     private final SectorMapper sectorMapper;
 
     @Transactional(readOnly = true)
-    public List<Account> findAll(){
+    public List<Account> findAll() {
         return accountRepository.findAll();
     }
 
@@ -32,9 +32,9 @@ public class AccountService {
         if (!accountDto.isAgreeToTerms()) {
             throw new ResponseStatusException(BAD_REQUEST, "Cannot create account without agreeing to terms");
         }
-        //if (accountDto.getSectors().isEmpty()) {
-        //    throw new ResponseStatusException(BAD_REQUEST, "No sector selected");
-        //}
+        if (accountDto.getSectors().isEmpty()) {
+            throw new ResponseStatusException(BAD_REQUEST, "No sector selected");
+        }
         Account newAccount = new Account()
                 .setFirstName(accountDto.getFirstName())
                 .setLastName(accountDto.getLastName())
@@ -45,7 +45,7 @@ public class AccountService {
                 .setFoodPreference(accountDto.getFoodPreference())
                 .setAllergyInfo(accountDto.getAllergyInfo())
                 .setDateAdded(Instant.now())
-         //       .setSectors(sectorMapper.toEntities(accountDto.getSectors()))
+                .setSectors(sectorMapper.toEntities(accountDto.getSectors()))
                 .setAgreeToTerms(true);
         return accountRepository.save(newAccount).getId();
     }
@@ -58,9 +58,9 @@ public class AccountService {
         if (!accountDto.isAgreeToTerms()) {
             throw new ResponseStatusException(BAD_REQUEST, "Cannot update account without agreeing to terms");
         }
-      //  if (accountDto.getSectors().isEmpty()) {
-      //      throw new ResponseStatusException(BAD_REQUEST, "No sector selected");
-      //  }
+        if (accountDto.getSectors().isEmpty()) {
+            throw new ResponseStatusException(BAD_REQUEST, "No sector selected");
+        }
 
         return getById(accountDto.getId())
                 .setDateUpdated(Instant.now())
@@ -72,8 +72,8 @@ public class AccountService {
                 .setSeatNr(accountDto.getSeatNr())
                 .setFoodPreference(accountDto.getFoodPreference())
                 .setAgreeToTerms(true)
-                .setAllergyInfo(accountDto.getAllergyInfo());
-//                .setSectors(sectorMapper.toEntities(accountDto.getSectors()));
+                .setAllergyInfo(accountDto.getAllergyInfo())
+                .setSectors(sectorMapper.toEntities(accountDto.getSectors()));
     }
 
     @Transactional(readOnly = true)

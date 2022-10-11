@@ -23,7 +23,7 @@ function App() {
         dispatch(getUsers());
         dispatch(getSectors());
     }, [])
-
+    // TODO: Create proper landing page with a user´s table, which shows first name, seat and sector
     return (
         <AppStyle>
             <p>Number of users: {users.length}</p>

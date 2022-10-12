@@ -4,7 +4,7 @@ import {DataTable} from "primereact";
 import {Column} from 'primereact/column';
 import {useAppDispatch, useAppSelector} from "../store";
 import {FormattedExistingUsers} from "../slicers/AppSlice";
-import {CTAStyle} from "./util/anchor";
+import {CTAStyle} from "./util/Anchor";
 import {MdDelete} from 'react-icons/md';
 import {deleteUser} from "../slicers/UserSlice";
 

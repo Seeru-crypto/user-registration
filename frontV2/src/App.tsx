@@ -10,10 +10,14 @@ import {getSectors, getUsers} from "./slicers/AppSlice";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import useToast from "./useToast";
+import Loader from "./components/util/Loader";
 
 function App() {
     useToast();
     const currentStep = useAppSelector(state => state.app.currentStep);
+    const isUserLoading: boolean = useAppSelector<boolean>(state => state.user.loading);
+    const isAppLoading: boolean = useAppSelector<boolean>(state => state.app.loading);
+
     const items = [
         {label: 'Personal'},
         {label: 'Contact'},
@@ -26,17 +30,27 @@ function App() {
         dispatch(getUsers());
         dispatch(getSectors());
     }, [])
+
+
     return (
         <AppStyle>
-            <ToastContainer className="toastify-container" toastClassName="toastify-toast" />
-            <div className="body">
-                <ComponentRoutes/>
-            </div>
-            <div className="footer">
-                <Steps model={items} activeIndex={currentStep}/>
-            </div>
+            <ToastContainer className="toastify-container" toastClassName="toastify-toast"/>
+            {
+                isAppLoading || isUserLoading ? <Loader/> : (
+                    <div>
+                        <div className="body">
+                            <ComponentRoutes/>
+                        </div>
+                        <div className="footer">
+                            <Steps model={items} activeIndex={currentStep}/>
+                        </div>
+                    </div>
+                )
+            }
+
         </AppStyle>
-    );
+    )
+
 }
 
 const AppStyle = styled.div`

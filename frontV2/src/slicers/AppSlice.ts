@@ -127,6 +127,7 @@ export const appSlice = createSlice({
                 state.errorMessage = "";
             })
             .addMatcher(isRejected(getSectors), state => {
+                state.loading = false;
                 state.toastMessage = {
                     header: "Tekkis viga sektorite pärimisega",
                     variant: "error"

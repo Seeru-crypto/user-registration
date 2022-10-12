@@ -16,6 +16,7 @@ public class Application {
 
 	@Value("${FRONT_URL}")
 	private String devLink;
+
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {

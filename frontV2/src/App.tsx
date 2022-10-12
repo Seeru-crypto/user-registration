@@ -7,8 +7,12 @@ import "primeicons/primeicons.css";
 import styled from "styled-components";
 import {useAppDispatch, useAppSelector} from "./store";
 import {getSectors, getUsers} from "./slicers/AppSlice";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import useToast from "./useToast";
 
 function App() {
+    useToast();
     const currentStep = useAppSelector(state => state.app.currentStep);
     const items = [
         {label: 'Personal'},
@@ -24,10 +28,9 @@ function App() {
         dispatch(getSectors());
     }, [])
     // TODO: Create proper landing page with a user´s table, which shows first name, seat and sector
-
-    //TODO: Add toast notification
     return (
         <AppStyle>
+            <ToastContainer className="toastify-container" toastClassName="toastify-toast" />
             <p>Number of users: {users.length}</p>
             <div className="body">
                 <ComponentRoutes/>

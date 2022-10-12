@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {initialToastMessage, ToastMessage} from "./AppSlice";
 
 export interface UserPersonalDataForm {
     firstName: string,
@@ -17,7 +18,9 @@ export interface UserMicDataForm {
     allergies: string;
 }
 
-export interface UserState extends UserPersonalDataForm, UserContactDataForm, UserMicDataForm{}
+export interface UserState extends UserPersonalDataForm, UserContactDataForm, UserMicDataForm{
+    toastMessage : ToastMessage;
+}
 
 // TODO: create UserForm interface and created usersInterface
 
@@ -32,6 +35,7 @@ const initialState: UserState = {
     seat: 0,
     food: "",
     allergies: "",
+    toastMessage: initialToastMessage
 };
 
 export const appSlice = createSlice({
@@ -53,10 +57,13 @@ export const appSlice = createSlice({
             state.food = action.payload.food;
             state.allergies = action.payload.allergies;
         },
+        resetToastMessage: (state) => {
+            state.toastMessage = initialToastMessage;
+        },
     },
 });
 export const {
-    setContactData,setMiscData, setPersonalData
+    setContactData,setMiscData, setPersonalData, resetToastMessage
 } = appSlice.actions;
 
 export default appSlice.reducer;

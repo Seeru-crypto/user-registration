@@ -10,7 +10,19 @@ interface AppState {
     loading: boolean;
     // TODO: Create loading spinner
     users: UserState[]
+    toastMessage : ToastMessage
 }
+
+export interface ToastMessage {
+    header : string,
+    variant: "success" | "error"
+}
+
+export const initialToastMessage : ToastMessage = {
+    header : "",
+    variant : "success"
+}
+
 export interface SectorProps {
     id: number,
     name: string,
@@ -28,7 +40,7 @@ export const getUsers = createAsyncThunk('get_users', async () => {
 export const saveUser = createAsyncThunk('save_user', async (userData: UserState, thunkAPI) => {
     const res = await axios.post<number>(NEW_USER_URL, {...userData, agreeToTerms: true})
     thunkAPI.dispatch(getUsers());
-    return res;
+    return res.data;
 })
 
 const initialState: AppState = {
@@ -36,7 +48,8 @@ const initialState: AppState = {
     sectors: [],
     errorMessage: "",
     loading: false,
-    users: []
+    users: [],
+    toastMessage :initialToastMessage
 };
 
 export const appSlice = createSlice({
@@ -45,6 +58,9 @@ export const appSlice = createSlice({
     reducers: {
         setCurrentStep: (state, action) => {
             state.currentStep = action.payload;
+        },
+        resetToastMessage : (state) => {
+            state.toastMessage = initialToastMessage;
         },
     }, extraReducers(builder) {
         builder
@@ -56,19 +72,29 @@ export const appSlice = createSlice({
                 state.loading = false;
                 state.users = action.payload;
             })
+            .addCase(saveUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.toastMessage = {
+                    header: "kasutaja edukalt salvestatud",
+                    variant: "success"
+                }
+            })
             .addMatcher(isPending(getSectors), state => {
                 state.loading = true;
                 state.errorMessage = "";
             })
             .addMatcher(isRejected(getSectors), state => {
-                console.log("HaHa, you nerd!")
-                state.errorMessage = "HaHa, you nerd!"
+                state.toastMessage = {
+                    header: "Tekkis viga sektorite pärimisega",
+                    variant: "error"
+                }
             })
     },
 });
 
 export const {
     setCurrentStep,
+    resetToastMessage
 } = appSlice.actions;
 
 export default appSlice.reducer;

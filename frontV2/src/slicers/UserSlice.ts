@@ -18,14 +18,13 @@ export interface UserMicDataForm {
     allergies: string;
 }
 
-export interface UserState extends UserPersonalDataForm, UserContactDataForm, UserMicDataForm{
+export interface UserFormState extends UserPersonalDataForm, UserContactDataForm, UserMicDataForm{
     toastMessage : ToastMessage;
 }
 
 // TODO: create UserForm interface and created usersInterface
 
-const initialState: UserState = {
-
+const initialState: UserFormState = {
     firstName: "",
     lastName: "",
     age: 0,

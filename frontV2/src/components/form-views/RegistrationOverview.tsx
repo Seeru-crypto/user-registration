@@ -4,7 +4,6 @@ import {useAppDispatch, useAppSelector} from "../../store";
 import FormButton from "../util/FormButton";
 import {saveUser, setCurrentStep} from "../../slicers/AppSlice";
 import Title from "../util/Title";
-import {UserState} from "../../slicers/UserSlice";
 
 const RegistrationOverview = (): JSX.Element => {
     const {firstName, lastName, age, phone, email, seat, food, allergies, sectorId} = useAppSelector(state => state.user)

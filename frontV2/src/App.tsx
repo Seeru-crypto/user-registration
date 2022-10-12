@@ -21,17 +21,14 @@ function App() {
         {label: 'Confirmation'}
     ];
 
-    const users = useAppSelector(state => state.app.users);
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(getUsers());
         dispatch(getSectors());
     }, [])
-    // TODO: Create proper landing page with a user´s table, which shows first name, seat and sector
     return (
         <AppStyle>
             <ToastContainer className="toastify-container" toastClassName="toastify-toast" />
-            <p>Number of users: {users.length}</p>
             <div className="body">
                 <ComponentRoutes/>
             </div>

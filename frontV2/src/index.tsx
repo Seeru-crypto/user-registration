@@ -10,6 +10,7 @@ import {setupAxiosInterceptors} from "./axiosInterceptor";
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 setupAxiosInterceptors();
 
 root.render(

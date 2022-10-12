@@ -1,5 +1,7 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {initialToastMessage, ToastMessage} from "./AppSlice";
+import {createAsyncThunk, createSlice, isPending, isRejected} from '@reduxjs/toolkit';
+import {getUsers, initialToastMessage, ToastMessage} from "./AppSlice";
+import axios from "axios";
+import {NEW_USER_URL} from "../constants";
 
 export interface UserPersonalDataForm {
     firstName: string,
@@ -20,9 +22,16 @@ export interface UserMicDataForm {
 
 export interface UserFormState extends UserPersonalDataForm, UserContactDataForm, UserMicDataForm{
     toastMessage : ToastMessage;
+    loading: boolean
 }
 
-// TODO: create UserForm interface and created usersInterface
+export const deleteUser = createAsyncThunk('delete_user', async (userId: number, thunkAPI) => {
+    const finalUrl = `${NEW_USER_URL}/${userId}`
+    const res = await axios.delete<number>(finalUrl)
+    thunkAPI.dispatch(getUsers());
+    return res.data;
+})
+
 
 const initialState: UserFormState = {
     firstName: "",
@@ -34,7 +43,8 @@ const initialState: UserFormState = {
     seat: 0,
     food: "",
     allergies: "",
-    toastMessage: initialToastMessage
+    toastMessage: initialToastMessage,
+    loading: false
 };
 
 export const appSlice = createSlice({
@@ -59,6 +69,24 @@ export const appSlice = createSlice({
         resetToastMessage: (state) => {
             state.toastMessage = initialToastMessage;
         },
+    },extraReducers(builder) {
+        builder
+            .addCase(deleteUser.fulfilled, (state) => {
+                state.loading = false;
+                state.toastMessage = {
+                    header : "Kasutaja edukalt kustutatud",
+                    variant: "success",
+                }
+            })
+            .addMatcher(isPending(deleteUser), state => {
+                state.loading = true;
+            })
+            .addMatcher(isRejected(deleteUser), state => {
+                state.toastMessage = {
+                    header: "Tekkis viga päringuga",
+                    variant: "error"
+                }
+            })
     },
 });
 export const {

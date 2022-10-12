@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import {useAppDispatch, useAppSelector} from "../../store";
 import FormButton from "../util/FormButton";
-import {saveUser, setCurrentStep} from "../../slicers/AppSlice";
+import {reverseNavigateToLanding, saveUser, setCurrentStep} from "../../slicers/AppSlice";
 import Title from "../util/Title";
 
 const RegistrationOverview = (): JSX.Element => {
@@ -24,7 +24,7 @@ const RegistrationOverview = (): JSX.Element => {
             agreeToTerms: true,
             sectors: [{id:sectorId}]
         };
-        dispatch(saveUser(userDto));
+        dispatch(saveUser(userDto)).then(()=>dispatch(reverseNavigateToLanding()));
     }
 
     const dispatch = useAppDispatch();
@@ -77,7 +77,6 @@ const OverviewStyle = styled.div`
   h1, h2 {
     font-size: var(--size500);
   }
-
 
   .buttonGrp {
     padding: var(--size300) 0;

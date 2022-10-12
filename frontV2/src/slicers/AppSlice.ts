@@ -34,7 +34,6 @@ export interface FormattedExistingUsers extends BaseUserState{
     }
 }
 
-
 interface AppState {
     currentStep: number;
     sectors: SectorProps[];
@@ -42,7 +41,8 @@ interface AppState {
     loading: boolean;
     // TODO: Create loading spinner
     users: FormattedExistingUsers[]
-    toastMessage: ToastMessage
+    toastMessage: ToastMessage;
+    navigateToLanding: boolean;
 }
 
 export interface ToastMessage {
@@ -81,7 +81,8 @@ const initialState: AppState = {
     errorMessage: "",
     loading: false,
     users: [],
-    toastMessage :initialToastMessage
+    toastMessage :initialToastMessage,
+    navigateToLanding: false
 };
 
 export const appSlice = createSlice({
@@ -93,6 +94,9 @@ export const appSlice = createSlice({
         },
         resetToastMessage : (state) => {
             state.toastMessage = initialToastMessage;
+        },
+        reverseNavigateToLanding : (state) => {
+            state.navigateToLanding = !state.navigateToLanding;
         },
     }, extraReducers(builder) {
         builder
@@ -133,7 +137,8 @@ export const appSlice = createSlice({
 
 export const {
     setCurrentStep,
-    resetToastMessage
+    resetToastMessage,
+    reverseNavigateToLanding
 } = appSlice.actions;
 
 export default appSlice.reducer;

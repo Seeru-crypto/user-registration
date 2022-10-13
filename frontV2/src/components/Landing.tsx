@@ -7,10 +7,12 @@ import {FormattedExistingUsers} from "../slicers/AppSlice";
 import {CTAStyle} from "./util/Anchor";
 import {MdDelete} from 'react-icons/md';
 import {deleteUser} from "../slicers/UserSlice";
+import {useNavigate} from "react-router-dom";
 
 const Landing = (): JSX.Element => {
     const users = useAppSelector(state => state.app.users);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const deleteElement = (row: FormattedExistingUsers): JSX.Element => {
         return (
@@ -18,16 +20,21 @@ const Landing = (): JSX.Element => {
         )
     }
 
+    function navigateToRegister(e: React.MouseEvent<HTMLAnchorElement>){
+        navigate("/register")
+        e.preventDefault();
+    }
+
     return (
         <LandingStyle><h1>
-            Welcome to landing page!
+            Welcome to user registration
         </h1>
-            <CTAStyle href="/register">Sign-up</CTAStyle>
+            <CTAStyle onClick={(e) => navigateToRegister(e)} href="/register">Sign-up</CTAStyle>
             <div className="table">
                 <h3>Existing users</h3>
                 <DataTable value={users} responsiveLayout="scroll">
                     <Column field="firstName" header="First name"/>
-                    <Column field="Age" header="age"/>
+                    <Column field="age" header="Age"/>
                     <Column field="sector" body={(row: FormattedExistingUsers) => row.sector.name}
                             header="Sector"/>
                     <Column field="delete" body={deleteElement}

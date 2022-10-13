@@ -4,6 +4,7 @@ import {useAppDispatch, useAppSelector} from "../../store";
 import FormButton from "../util/FormButton";
 import {reverseNavigateToLanding, saveUser, setCurrentStep} from "../../slicers/AppSlice";
 import Title from "../util/Title";
+import {resetUserFormState} from "../../slicers/UserSlice";
 
 const RegistrationOverview = (): JSX.Element => {
     const {firstName, lastName, age, phone, email, seat, food, allergies, sectorId} = useAppSelector(state => state.user)
@@ -24,7 +25,11 @@ const RegistrationOverview = (): JSX.Element => {
             agreeToTerms: true,
             sectors: [{id:sectorId}]
         };
-        dispatch(saveUser(userDto)).then(()=>dispatch(reverseNavigateToLanding()));
+        dispatch(saveUser(userDto)).then(()=> {
+            dispatch(reverseNavigateToLanding())
+            dispatch(resetUserFormState())
+            dispatch(setCurrentStep(0))
+        });
     }
 
     const dispatch = useAppDispatch();

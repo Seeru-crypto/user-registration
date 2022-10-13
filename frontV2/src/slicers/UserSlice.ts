@@ -69,6 +69,7 @@ export const appSlice = createSlice({
         resetToastMessage: (state) => {
             state.toastMessage = initialToastMessage;
         },
+        resetUserFormState: () => initialState
     },extraReducers(builder) {
         builder
             .addCase(deleteUser.fulfilled, (state) => {
@@ -90,7 +91,7 @@ export const appSlice = createSlice({
     },
 });
 export const {
-    setContactData,setMiscData, setPersonalData, resetToastMessage
+    setContactData,setMiscData, setPersonalData, resetToastMessage,resetUserFormState
 } = appSlice.actions;
 
 export default appSlice.reducer;

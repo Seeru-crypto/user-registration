@@ -22,7 +22,9 @@ const PersonalDataForm = () => {
     const userSectorId = useAppSelector<number>(state => state.user.sectorId)
     const sectors = useAppSelector<SectorProps[]>(state => state.app.sectors);
     const [selectedSector, setSelectedSector] = useState<any>(undefined);
+    const [sectorErrorMsg, setSectorErrorMsg] = useState<string>("");
     const [formattedSectors, setFormattedSectors] = useState<FormattedSector[]>([])
+    const sectorErrorMessage = "A sector must be selected";
 
     interface FormattedSector {
         key: number;
@@ -53,10 +55,14 @@ const PersonalDataForm = () => {
     }
 
     const onSubmit = (data: UserPersonalDataForm) => {
+        if(!selectedSector) {
+            setSectorErrorMsg(sectorErrorMessage)
+            return
+        }
+        else setSectorErrorMsg("")
         dispatch(setPersonalData({...data, sectorId: selectedSector}))
         dispatch(setCurrentStep(currentStepIndex + 1))
     }
-
     const firstNameOptions = {
         required: "First name is a required field", pattern: {
             value: noNumbersRegex,
@@ -69,7 +75,6 @@ const PersonalDataForm = () => {
             message: "Last name should not contain numbers"
         }
     };
-
     const ageOptions = {
         required: "Age must be a number",
         min: {
@@ -81,7 +86,6 @@ const PersonalDataForm = () => {
             message: "Age must be a number"
         }
     }
-
     const sectorOptions = {
         required: "Sector must be selected!",
     }
@@ -107,15 +111,22 @@ const PersonalDataForm = () => {
                     <FormErrorMessage value={errors.age?.message}/>
                 </div>
 
-                <div className="sector-selector">
-                    <TreeSelect display="chip" placeholder="Select sector" {...register("sectorId", sectorOptions)}
-                                value={selectedSector} scrollHeight={"400px"}
-                                options={formattedSectors} onChange={(e) => setSelectedSector(e.value)}
-                                selectionMode="single"
-                                metaKeySelection={false}/>
-                    <FormErrorMessage value={errors.sectorId?.message}/>
-
-                </div>
+                <TreeSelect display="chip"
+                            placeholder="Select sector"
+                            {...register("sectorId", sectorOptions)}
+                            value={selectedSector}
+                            scrollHeight={"400px"}
+                            options={formattedSectors}
+                            onChange={(e) => setSelectedSector(e.value)}
+                            selectionMode="single"
+                            filter
+                            filterBy={"label"}
+                            filterPlaceholder="Electronics ..."
+                            filterInputAutoFocus
+                            required={true}
+                            className="treeSelect"
+                            metaKeySelection={false}/>
+                <FormErrorMessage value={sectorErrorMsg}/>
 
                 <div className="buttonGrp">
                     <FormButton type="submit" value="next" testId="submit"/>
@@ -146,5 +157,13 @@ const PersonalDataStyle = styled.div`
     display: flex;
     flex-direction: column;
     gap: var(--size100)
+  }
+
+  .treeSelect {
+    border: none;
+    border-bottom: 2px solid var(--teal400);
+    :hover, :focus, :active {
+        border-color: var(--gray800);
+    }
   }
 `

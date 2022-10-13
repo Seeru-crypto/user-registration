@@ -80,4 +80,11 @@ public class AccountService {
     public Account getById(Long id) {
         return accountRepository.getReferenceById(id);
     }
+
+    public void delete(Long accountID) {
+        if (!accountRepository.existsById(accountID)){
+            throw new ResponseStatusException(BAD_REQUEST, "No such ID exists");
+        }
+        accountRepository.deleteById(accountID);
+    }
 }

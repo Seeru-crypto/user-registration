@@ -26,6 +26,11 @@ public class AccountController {
         return accountService.save(accountDto);
     }
 
+    @DeleteMapping(path = "{accountID}")
+    public void delete(@PathVariable Long accountID) {
+        accountService.delete(accountID);
+    }
+
     @PutMapping
     public AccountDto update(@Valid @RequestBody AccountDto accountDto){
         return accountMapper.toDto(accountService.update(accountDto));

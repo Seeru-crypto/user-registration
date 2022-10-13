@@ -14,23 +14,14 @@ import Loader from "./components/util/Loader";
 
 function App() {
     useToast();
-    const currentStep = useAppSelector(state => state.app.currentStep);
     const isUserLoading: boolean = useAppSelector<boolean>(state => state.user.loading);
     const isAppLoading: boolean = useAppSelector<boolean>(state => state.app.loading);
-
-    const items = [
-        {label: 'Personal'},
-        {label: 'Contact'},
-        {label: 'Miscellaneous'},
-        {label: 'Confirmation'}
-    ];
 
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(getUsers());
         dispatch(getSectors());
     }, [])
-
 
     return (
         <AppStyle>
@@ -41,16 +32,13 @@ function App() {
                         <div className="body">
                             <ComponentRoutes/>
                         </div>
-                        <div className="footer">
-                            <Steps model={items} activeIndex={currentStep}/>
-                        </div>
+
                     </div>
                 )
             }
 
         </AppStyle>
     )
-
 }
 
 const AppStyle = styled.div`
@@ -63,14 +51,6 @@ const AppStyle = styled.div`
     flex: 1;
   }
 
-  .footer {
-    display: flex;
-    min-height: 150px;
-
-    .p-steps-title {
-      padding: 0 30px;
-    }
-  }
 `
 export default App;
 

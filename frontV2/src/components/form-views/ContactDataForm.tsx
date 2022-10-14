@@ -12,12 +12,12 @@ import Title from "../util/Title";
 const ContactDataForm = () => {
     const dispatch= useAppDispatch();
     const currentStepIndex = useAppSelector(state => state.app.currentStep)
-    const userPhoneNr = useAppSelector(state => state.user.phone)
-    const userEmail = useAppSelector(state => state.user.email)
+    const phoneNumber = useAppSelector(state => state.user.phoneNumber)
+    const emailAddress = useAppSelector(state => state.user.emailAddress)
     const {register, handleSubmit, formState: {errors}} = useForm({
         defaultValues: {
-            phone: userPhoneNr ? userPhoneNr : null,
-            email: userEmail ? userEmail : "",
+            phoneNumber: phoneNumber ? phoneNumber : null,
+            emailAddress: emailAddress ? emailAddress : "",
         }
     });
 
@@ -42,13 +42,13 @@ const ContactDataForm = () => {
             <form className="dataForm" onSubmit={handleSubmit(onSubmit)}>
 
                 <div className="inputGroup">
-                    <FormInput register={register} placeholder="phone number" name="phone" options={telephoneOption}/>
-                    <FormErrorMessage value={errors.phone?.message}/>
+                    <FormInput register={register} placeholder="phone number" name="phoneNumber" options={telephoneOption}/>
+                    <FormErrorMessage value={errors.phoneNumber?.message}/>
                 </div>
 
                 <div className="inputGroup">
-                    <FormInput register={register} placeholder="email adress" name="email" options={emailOptions}/>
-                    <FormErrorMessage value={errors.email?.message}/>
+                    <FormInput register={register} placeholder="email adress" name="emailAddress" options={emailOptions}/>
+                    <FormErrorMessage value={errors.emailAddress?.message}/>
                 </div>
 
                 <div className="buttonGrp">

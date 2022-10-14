@@ -7,22 +7,27 @@ export interface UserPersonalDataForm {
     firstName: string,
     lastName: string,
     age: number | null,
-    sectorId: number
+    sectorId?: number
 }
 export interface UserContactDataForm {
-    phone: number | null;
-    email: string;
+    phoneNumber: number | null;
+    emailAddress: string;
 }
 
 export interface UserMicDataForm {
-    seat: number | null;
-    food: string;
-    allergies: string;
+    seatNr: number | null;
+    foodPreference: string;
+    allergyInfo: string;
+    agreeToTerms?: boolean;
+}
+
+export interface UserDtoProps extends UserPersonalDataForm, UserContactDataForm, UserMicDataForm{
+    sectors?:{}[]
 }
 
 export interface UserFormState extends UserPersonalDataForm, UserContactDataForm, UserMicDataForm{
     toastMessage : ToastMessage;
-    loading: boolean
+    loading: boolean;
 }
 
 export const deleteUser = createAsyncThunk('delete_user', async (userId: number, thunkAPI) => {
@@ -38,13 +43,14 @@ const initialState: UserFormState = {
     lastName: "",
     age: 0,
     sectorId: 0,
-    phone: 0,
-    email: "",
-    seat: 0,
-    food: "",
-    allergies: "",
+    phoneNumber: 0,
+    emailAddress: "",
+    seatNr: 0,
+    foodPreference: "",
+    allergyInfo: "",
     toastMessage: initialToastMessage,
-    loading: false
+    loading: false,
+    agreeToTerms: true
 };
 
 export const appSlice = createSlice({
@@ -58,13 +64,13 @@ export const appSlice = createSlice({
             state.sectorId = action.payload.sectorId;
         },
         setContactData: (state, action) => {
-            state.phone = action.payload.phone;
-            state.email = action.payload.email;
+            state.phoneNumber = action.payload.phoneNumber;
+            state.emailAddress = action.payload.emailAddress;
         },
         setMiscData: (state, action) => {
-            state.seat = action.payload.seat;
-            state.food = action.payload.food;
-            state.allergies = action.payload.allergies;
+            state.seatNr = action.payload.seatNr;
+            state.foodPreference = action.payload.foodPreference;
+            state.allergyInfo = action.payload.allergyInfo;
         },
         resetToastMessage: (state) => {
             state.toastMessage = initialToastMessage;

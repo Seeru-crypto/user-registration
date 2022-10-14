@@ -1,55 +1,82 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import {useAppDispatch, useAppSelector} from "../../store";
 import FormButton from "../util/FormButton";
 import {reverseNavigateToLanding, saveUser, setCurrentStep} from "../../slicers/AppSlice";
 import Title from "../util/Title";
-import {resetUserFormState} from "../../slicers/UserSlice";
+import {resetUserFormState, UserDtoProps} from "../../slicers/UserSlice";
 
 const RegistrationOverview = (): JSX.Element => {
-    const {firstName, lastName, age, phone, email, seat, food, allergies, sectorId} = useAppSelector(state => state.user)
+    const {
+        firstName,
+        lastName,
+        age,
+        phoneNumber,
+        emailAddress,
+        seatNr,
+        foodPreference,
+        allergyInfo,
+        sectorId,
+        agreeToTerms
+    } = useAppSelector(state => state.user)
+    const sectors = useAppSelector(state => state.app.sectors)
     const currentStepIndex = useAppSelector(state => state.app.currentStep)
+    const dispatch = useAppDispatch();
+    const [userCurrentSector, setUserCurrentSector] = useState("")
 
-    function onSubmit(){
-        //TODO: Fix data schema on front-end so that it would be 1:1 with back-end.
-        //TODO: add better support for sector interface and remove any dataType
-        const userDto : any = {
+    function onSubmit() {
+        const userDto: UserDtoProps = {
             firstName,
             lastName,
             age,
-            phoneNumber: phone,
-            emailAddress: email,
-            seatNr: seat,
-            foodPreference: food,
-            allergyInfo: allergies,
-            agreeToTerms: true,
-            sectors: [{id:sectorId}]
+            phoneNumber,
+            emailAddress,
+            seatNr,
+            foodPreference,
+            allergyInfo,
+            agreeToTerms,
+            sectors: [{id: sectorId}]
         };
-        dispatch(saveUser(userDto)).then(()=> {
+        dispatch(saveUser(userDto)).then(() => {
             dispatch(reverseNavigateToLanding())
             dispatch(resetUserFormState())
             dispatch(setCurrentStep(0))
         });
     }
 
-    const dispatch = useAppDispatch();
+    useEffect(() => {
+            sectors.forEach(sector => {
+                if (sector.id === sectorId) setUserCurrentSector(sector.name);
+            })
+        }, [sectors]
+    )
+
     return (
         <OverviewStyle>
-            <Title value={"Does everything seem fine?"} />
+            <Title value={"Does everything seem fine?"}/>
             <div className="row personal">
-                <p><span className="label">First Name: </span> <span data-testid="firstName" className="value">{firstName}</span></p>
-                <p><span className="label">Last Name: </span> <span data-testid="lastName" className="value">{lastName}</span></p>
+                <p><span className="label">First Name: </span> <span data-testid="firstName"
+                                                                     className="value">{firstName}</span></p>
+                <p><span className="label">Last Name: </span> <span data-testid="lastName"
+                                                                    className="value">{lastName}</span></p>
                 <p><span className="label">Age: </span> <span data-testid="age" className="value">{age}</span></p>
+                <p><span className="label">Sector: </span> <span className="value">{userCurrentSector}</span></p>
+
             </div>
             <div className="row contact">
-                <p><span className="label">Phone number: </span> <span data-testid="phone" className="value">{phone}</span></p>
-                <p><span className="label">Email address: </span> <span data-testid="email" className="value">{email}</span></p>
+                <p><span className="label">Phone number: </span> <span data-testid="phone"
+                                                                       className="value">{phoneNumber}</span></p>
+                <p><span className="label">Email address: </span> <span data-testid="email"
+                                                                        className="value">{emailAddress}</span></p>
             </div>
 
             <div className="row misc">
-                <p><span className="label">Seating preference: </span> <span data-testid="seat" className="value">{seat}</span></p>
-                <p><span className="label">food preference: </span> <span data-testid="food" className="value">{food}</span></p>
-                <p><span className="label">allergie info: </span> <span data-testid="allergies" className="value">{allergies}</span></p>
+                <p><span className="label">Seating preference: </span> <span data-testid="seat"
+                                                                             className="value">{seatNr}</span></p>
+                <p><span className="label">food preference: </span> <span data-testid="food"
+                                                                          className="value">{foodPreference}</span></p>
+                <p><span className="label">allergie info: </span> <span data-testid="allergies"
+                                                                        className="value">{allergyInfo}</span></p>
             </div>
             <div className="buttonGrp">
                 <FormButton type="button" testId="back" onClick={() => dispatch(setCurrentStep(currentStepIndex - 1))}

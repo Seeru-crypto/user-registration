@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, isPending, isRejected} from '@reduxjs/toolkit';
 import axios from "axios";
-import {UserFormState} from "./UserSlice";
+import {UserDtoProps} from "./UserSlice";
 import {NEW_USER_URL, SECTOR_URL} from "../constants";
 
 
@@ -39,7 +39,6 @@ interface AppState {
     sectors: SectorProps[];
     errorMessage: string;
     loading: boolean;
-    // TODO: Create loading spinner
     users: FormattedExistingUsers[]
     toastMessage: ToastMessage;
     navigateToLanding: boolean;
@@ -69,7 +68,7 @@ export const getUsers = createAsyncThunk('get_users', async () => {
     return (await axios.get<ExistingUserState[]>(NEW_USER_URL)).data;
 })
 
-export const saveUser = createAsyncThunk('save_user', async (userData: UserFormState, thunkAPI) => {
+export const saveUser = createAsyncThunk('save_user', async (userData: UserDtoProps, thunkAPI) => {
     const res = await axios.post<number>(NEW_USER_URL, {...userData, agreeToTerms: true})
     thunkAPI.dispatch(getUsers());
     return res.data;

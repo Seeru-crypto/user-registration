@@ -11,15 +11,15 @@ import Title from "../util/Title";
 
 const MiscDataForm = () => {
     const dispatch = useAppDispatch();
-    const userSeat = useAppSelector(state => state.user.seat)
-    const userFood = useAppSelector(state => state.user.food)
-    const userAllergies = useAppSelector(state => state.user.allergies)
+    const seatNr = useAppSelector(state => state.user.seatNr)
+    const userFood = useAppSelector(state => state.user.foodPreference)
+    const userAllergies = useAppSelector(state => state.user.allergyInfo)
     const currentStepIndex = useAppSelector(state => state.app.currentStep)
     const {register, handleSubmit, formState: {errors}} = useForm({
         defaultValues: {
-            seat: userSeat ? userSeat : null,
-            food: userFood ? userFood : "",
-            allergies: userAllergies ? userAllergies : "",
+            seatNr: seatNr ? seatNr : null,
+            foodPreference: userFood ? userFood : "",
+            allergyInfo: userAllergies ? userAllergies : "",
         }
     });
 
@@ -38,18 +38,18 @@ const MiscDataForm = () => {
             <form className="dataForm" onSubmit={handleSubmit(onSubmit)}>
 
                 <div className="inputGroup">
-                    <FormInput register={register} placeholder="seat number" name="seat" options={seatOptions}/>
-                    <FormErrorMessage value={errors.seat?.message}/>
+                    <FormInput register={register} placeholder="seat number" name="seatNr" options={seatOptions}/>
+                    <FormErrorMessage value={errors.seatNr?.message}/>
                 </div>
 
                 <div className="inputGroup">
-                    <FormInput register={register} placeholder="food preference" name="food" options={foodOptions}/>
-                    <FormErrorMessage value={errors.food?.message}/>
+                    <FormInput register={register} placeholder="food preference" name="foodPreference" options={foodOptions}/>
+                    <FormErrorMessage value={errors.foodPreference?.message}/>
                 </div>
 
                 <div className="inputGroup">
-                    <FormInput register={register} placeholder="allergie info" name="allergies" options={allergiesOptions}/>
-                    <FormErrorMessage value={errors.allergies?.message}/>
+                    <FormInput register={register} placeholder="allergie info" name="allergyInfo" options={allergiesOptions}/>
+                    <FormErrorMessage value={errors.allergyInfo?.message}/>
                 </div>
 
                 <div className="buttonGrp">

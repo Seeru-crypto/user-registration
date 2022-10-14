@@ -12,14 +12,12 @@ import {TreeSelect} from 'primereact/treeselect';
 import {noNumbersRegex, onlyNumbersRegex} from "../../constants";
 
 const PersonalDataForm = () => {
-    //TODO: Add dropdown empty input control
-    //TODO: Add proper styling to dropwon
     const dispatch = useAppDispatch();
     const currentStepIndex = useAppSelector(state => state.app.currentStep)
     const userFirstName = useAppSelector(state => state.user.firstName)
     const userLastName = useAppSelector(state => state.user.lastName)
     const userAge = useAppSelector(state => state.user.age)
-    const userSectorId = useAppSelector<number>(state => state.user.sectorId)
+    const userSectorId = useAppSelector<number | undefined>(state => state.user.sectorId)
     const sectors = useAppSelector<SectorProps[]>(state => state.app.sectors);
     const [selectedSector, setSelectedSector] = useState<any>(undefined);
     const [sectorErrorMsg, setSectorErrorMsg] = useState<string>("");

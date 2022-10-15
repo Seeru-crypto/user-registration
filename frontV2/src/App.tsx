@@ -21,7 +21,7 @@ function App() {
     useEffect(() => {
         dispatch(getUsers());
         dispatch(getSectors());
-    }, [])
+    }, [dispatch])
 
     return (
         <AppStyle>
@@ -32,11 +32,9 @@ function App() {
                         <div className="body">
                             <ComponentRoutes/>
                         </div>
-
                     </div>
                 )
             }
-
         </AppStyle>
     )
 }

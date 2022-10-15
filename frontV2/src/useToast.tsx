@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {useEffect, useMemo} from "react";
 import {toast, ToastOptions} from "react-toastify";
 import {useAppDispatch, useAppSelector} from "./store";
 import {resetToastMessage as resetAppToast, ToastMessage} from "./slicers/AppSlice";
@@ -10,17 +10,21 @@ const useToast = () => {
     const appToast = useAppSelector(state => state.app.toastMessage)
     const dispatch = useAppDispatch();
 
-    const generalToastOptions : ToastOptions = {
-        position: "top-left",
-        autoClose: 3000,
-        hideProgressBar : false,
-        draggable:false,
-    }
+
+    const generalToastOptions: ToastOptions = useMemo(() => {
+        return {
+            position: "top-left",
+            autoClose: 3000,
+            hideProgressBar: false,
+            draggable: false,
+        }
+    }, [])
+
     type Slicers = "user" | "app";
 
     useEffect(() => {
-        function toastCaller(toastMessage : ToastMessage, slicer: Slicers){
-            switch (toastMessage.variant){
+        function toastCaller(toastMessage: ToastMessage, slicer: Slicers) {
+            switch (toastMessage.variant) {
                 case "success":
                     toast.success(toastMessage.header, generalToastOptions)
                     break
@@ -38,9 +42,10 @@ const useToast = () => {
                     break;
             }
         }
-        if (userToast.header !=="") toastCaller(userToast, "user");
-        if (appToast.header !=="") toastCaller(appToast, "app");
-    }, [userToast.header, appToast.header])
+
+        if (userToast.header !== "") toastCaller(userToast, "user");
+        if (appToast.header !== "") toastCaller(appToast, "app");
+    }, [userToast, appToast, dispatch, generalToastOptions])
 
 }
 

@@ -25,10 +25,16 @@ export interface UserDtoProps extends UserPersonalDataForm, UserContactDataForm,
     sectors?:{}[]
 }
 
-export interface UserFormState extends UserPersonalDataForm, UserContactDataForm, UserMicDataForm{
+export interface InitialState extends UserPersonalDataForm, UserContactDataForm, UserMicDataForm{
     toastMessage : ToastMessage;
     loading: boolean;
 }
+
+export const saveUser = createAsyncThunk('save_user', async (userData: UserDtoProps, thunkAPI) => {
+    const res = await axios.post<number>(NEW_USER_URL, {...userData, agreeToTerms: true})
+    thunkAPI.dispatch(getUsers());
+    return res.data;
+})
 
 export const deleteUser = createAsyncThunk('delete_user', async (userId: number, thunkAPI) => {
     const finalUrl = `${NEW_USER_URL}/${userId}`
@@ -37,8 +43,7 @@ export const deleteUser = createAsyncThunk('delete_user', async (userId: number,
     return res.data;
 })
 
-
-const initialState: UserFormState = {
+const initialState: InitialState = {
     firstName: "",
     lastName: "",
     age: 0,
@@ -78,6 +83,13 @@ export const appSlice = createSlice({
         resetUserFormState: () => initialState
     },extraReducers(builder) {
         builder
+            .addCase(saveUser.fulfilled, (state) => {
+                state.loading = false;
+                state.toastMessage = {
+                    header: "kasutaja edukalt salvestatud",
+                    variant: "success"
+                }
+            })
             .addCase(deleteUser.fulfilled, (state) => {
                 state.loading = false;
                 state.toastMessage = {

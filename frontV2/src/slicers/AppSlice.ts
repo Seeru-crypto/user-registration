@@ -1,6 +1,5 @@
 import {createAsyncThunk, createSlice, isPending, isRejected} from '@reduxjs/toolkit';
 import axios from "axios";
-import {UserDtoProps} from "./UserSlice";
 import {NEW_USER_URL, SECTOR_URL} from "../constants";
 
 
@@ -68,12 +67,6 @@ export const getUsers = createAsyncThunk('get_users', async () => {
     return (await axios.get<ExistingUserState[]>(NEW_USER_URL)).data;
 })
 
-export const saveUser = createAsyncThunk('save_user', async (userData: UserDtoProps, thunkAPI) => {
-    const res = await axios.post<number>(NEW_USER_URL, {...userData, agreeToTerms: true})
-    thunkAPI.dispatch(getUsers());
-    return res.data;
-})
-
 const initialState: AppState = {
     currentStep: 0,
     sectors: [],
@@ -113,13 +106,6 @@ export const appSlice = createSlice({
                         }}
                 })
                 state.users = res;
-            })
-            .addCase(saveUser.fulfilled, (state, action) => {
-                state.loading = false;
-                state.toastMessage = {
-                    header: "kasutaja edukalt salvestatud",
-                    variant: "success"
-                }
             })
             .addMatcher(isPending(getSectors), state => {
                 state.loading = true;

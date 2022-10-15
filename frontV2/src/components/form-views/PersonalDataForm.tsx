@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../store";
 import styled from "styled-components";
 import {useForm} from "react-hook-form";
@@ -37,7 +37,7 @@ const PersonalDataForm = () => {
     useEffect(() => {
         const formattedList = sectors.map((sector: SectorProps) => sectorToTree(sector));
         setFormattedSectors(formattedList);
-    }, [sectors]);
+    }, [sectors, sectorToTree]);
 
     const {register, handleSubmit, formState: {errors}} = useForm({
         defaultValues: {
@@ -49,7 +49,7 @@ const PersonalDataForm = () => {
     });
 
     function sectorToTree(sector: SectorProps): FormattedSector {
-        return {key: sector.id, label: sector.name, children: (sector.children.map((e) => sectorToTree(e)))}
+           return {key: sector.id, label: sector.name, children: (sector.children.map((e) => sectorToTree(e)))}
     }
 
     const onSubmit = (data: UserPersonalDataForm) => {

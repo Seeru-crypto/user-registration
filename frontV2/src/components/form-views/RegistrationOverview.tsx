@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import {useAppDispatch, useAppSelector} from "../../store";
 import FormButton from "../util/FormButton";
-import {reverseNavigateToLanding, saveUser, setCurrentStep} from "../../slicers/AppSlice";
+import {reverseNavigateToLanding, setCurrentStep} from "../../slicers/AppSlice";
 import Title from "../util/Title";
-import {resetUserFormState, UserDtoProps} from "../../slicers/UserSlice";
+import {resetUserFormState, saveUser, UserDtoProps} from "../../slicers/UserSlice";
 
 const RegistrationOverview = (): JSX.Element => {
     const {
@@ -48,7 +48,7 @@ const RegistrationOverview = (): JSX.Element => {
             sectors.forEach(sector => {
                 if (sector.id === sectorId) setUserCurrentSector(sector.name);
             })
-        }, [sectors]
+        }, [sectors, sectorId]
     )
 
     return (

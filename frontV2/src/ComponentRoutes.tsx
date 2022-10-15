@@ -16,7 +16,7 @@ function ComponentRoutes() {
             navigate("/")
             dispatch(reverseNavigateToLanding());
         }
-    }, [navigateToLanding])
+    }, [navigateToLanding, dispatch, navigate])
 
     return (
         <div>

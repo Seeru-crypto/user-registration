@@ -17,7 +17,7 @@ import javax.persistence.EntityManager;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
-@Sql("test-data.sql")
+@Sql("../../../../resources/test-data.sql")
 @AutoConfigureMockMvc
 public abstract class BaseIntegrationTest {
 

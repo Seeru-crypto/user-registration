@@ -1,14 +1,16 @@
 package main.back.controller;
 
+import main.back.model.Sector;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
+import java.util.Set;
+
+import static main.back.TestObjects.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class AccountControllerTest {
+class AccountControllerTest extends BaseIntegrationTest {
 
 //    @Test
 //    void shouldGetEvents() throws Exception {
@@ -22,7 +24,15 @@ class AccountControllerTest {
 //    }
 
     @Test
-    void findAll() {
+    void findAll() throws Exception {
+        Sector sector = createSector();
+        entityManager.persist(sector);
+        entityManager.persist(createAccount().setSectors(Set.of(sector)));
+
+        mockMvc.perform(get("/accounts"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("length()").value(1))
+                .andExpect(jsonPath("$.[0].firstName").value(ACCCOUNT_FIRST_NAME));
     }
 
     @Test

@@ -8,3 +8,4 @@ server:
   port : 8880
 
 FRONT_URL: "http://localhost:3000/"
+

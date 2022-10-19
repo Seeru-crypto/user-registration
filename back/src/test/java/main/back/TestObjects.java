@@ -7,7 +7,9 @@ import java.time.Instant;
 
 
 public class TestObjects {
-    public static String ACCCOUNT_NAME = "test-account-1";
+    public static String ACCCOUNT_FIRST_NAME = "test-account-1";
+    public static String ACCCOUNT_LAST_NAME = "test-account-1";
+
     public static boolean ACCCOUNT_AGREE_TO_TERMS = true;
     public static Instant ACCOUNT_DATE_ADDED = Instant.now();
     public static String SECTOR_NAME = "test-sector-1";
@@ -15,7 +17,13 @@ public class TestObjects {
 
     public static Account createAccount(){
         return new Account()
-                .setName(ACCCOUNT_NAME)
+                .setFirstName(ACCCOUNT_FIRST_NAME)
+                .setLastName(ACCCOUNT_LAST_NAME)
+                .setAge(8)
+                .setAllergyInfo("s")
+                .setFoodPreference("ss")
+                .setEmailAddress("ss")
+                .setPhoneNumber("ss")
                 .setAgreeToTerms(ACCCOUNT_AGREE_TO_TERMS)
                 .setDateAdded(ACCOUNT_DATE_ADDED);
     };

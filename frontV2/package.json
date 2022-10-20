@@ -28,8 +28,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "CI=true react-scripts build",
+    "start": "set PORT=9000 && react-scripts start",
+    "build": "set CI=false && react-scripts build",
     "eject": "react-scripts eject",
     "test": "jest"
   },

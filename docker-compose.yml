@@ -8,4 +8,4 @@ services:
       - POSTGRES_DB=user_reg_DB
       - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
-      - 8881:5432
+      - 9003:5432

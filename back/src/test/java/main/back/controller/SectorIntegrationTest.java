@@ -1,4 +1,4 @@
-package main.back.service;
+package main.back.controller;
 
 import main.back.model.Sector;
 import org.junit.jupiter.api.Test;
@@ -12,16 +12,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Transactional
 class SectorIntegrationTest extends BaseIntegrationTest {
 
-   @Test
+    @Test
     void getAllSectorChildren_ReturnsEmptyListIfNoChildren() throws Exception {
         sectorRepository.save(createSector());
 
         mockMvc.perform(get("/sectors").contentType(APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("length()").value(1))
-            .andExpect(jsonPath("$.[0].children.length()").value(0));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("length()").value(1))
+                .andExpect(jsonPath("$.[0].children.length()").value(0));
     }
 
     @Test
@@ -33,7 +34,6 @@ class SectorIntegrationTest extends BaseIntegrationTest {
         entityManager.persist(middleSector);
         Sector parentSector = createSector().setChildren(List.of(middleSector)).setName("parent").setValue(1);
         entityManager.persist(parentSector);
-
         mockMvc.perform(get("/sectors"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("length()").value(1))

@@ -37,8 +37,7 @@ public class TestObjects {
                 .setPhoneNumber(ACCCOUNT_PHONE_NR)
                 .setSeatNr(ACCCOUNT_SEAT_NR)
                 .setAgreeToTerms(ACCCOUNT_AGREE_TO_TERMS)
-                .setDateAdded(ACCOUNT_DATE_ADDED)
-                .setId(ACCCOUNT_ID);
+                .setDateAdded(ACCOUNT_DATE_ADDED);
     };
 
     public static AccountDto createAccountDto(){

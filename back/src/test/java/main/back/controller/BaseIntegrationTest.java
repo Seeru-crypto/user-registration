@@ -1,10 +1,10 @@
 package main.back.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import main.back.Application;
 import main.back.model.AccountDto;
 import main.back.repository.SectorRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import main.back.service.AccountService;
 import main.back.service.SectorService;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,11 +18,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
 import javax.persistence.EntityManager;
 
 // TODO: Create simple integration test for postgre
 @ExtendWith(SpringExtension.class)
-//@ExtendWith(MockitoExtension.class)
+@ExtendWith(MockitoExtension.class)
 @Sql("/test-data.sql")
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
@@ -56,7 +57,6 @@ public abstract class BaseIntegrationTest {
     @BeforeEach
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
-       // postgreSQLContainer.dropCollection(Account.class);
     }
 
 }

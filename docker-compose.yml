@@ -1,11 +1,30 @@
-version: '2'
+version: '3'
 services:
   db:
     image: postgres:14.1
+    container_name: db
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=user_reg_DB
       - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
-      - 9003:5432
+      - 9002:5432
+  spring-api:
+    build:
+      context: ./back
+    ports:
+      - "9001:80"
+    container_name: spring-api
+    stdin_open: true
+  react-ui:
+    build:
+      context: ./frontV2
+    ports:
+      - "9000:80"
+    container_name: react-ui
+    stdin_open: true
+    environment:
+      - "API_URL=production.example.com"
+
+# TODO: Add proper env variables

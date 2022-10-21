@@ -7,7 +7,7 @@ const config: Config = {
     testEnvironment: "jsdom",
     moduleDirectories: ['./node_modules', 'src'],
     setupFilesAfterEnv: ['<rootDir>/src/jest-setup.ts']
-
 };
+
 global.React = React;
 export default config;

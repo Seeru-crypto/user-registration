@@ -2,9 +2,11 @@ spring:
   datasource:
     username: "root"
     password: "root"
-    url: jdbc:postgresql://localhost:9003/user_reg_DB
+#    url: jdbc:postgresql://localhost:9002/user_reg_DB
+    url: jdbc:postgresql://back-db-1/user_reg_DB
     driverClassName: org.postgresql.Driver
 server:
   port : 9001
 
+#FRONT_URL: "http://localhost:9000/"
 FRONT_URL: "http://localhost:9000/"

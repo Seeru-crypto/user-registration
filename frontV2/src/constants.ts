@@ -3,4 +3,5 @@ export const NEW_USER_URL = "accounts";
 export const noNumbersRegex = /^([^0-9]*)$/;
 export const onlyNumbersRegex = /^(0|[1-9][0-9]*)$/;
 
-export const BACK_URL = "http://localhost:9001"
+// export const BACK_URL = "http://localhost:9001"
+export const BACK_URL = process.env.BACK_URL;

@@ -20,5 +20,4 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
 ENV application.config-path=/services
 EXPOSE 80
-ENTRYPOINT ["java","-cp","app:app/lib/*","main.back.Application"]
-
+ENTRYPOINT ["java","-cp","app:app/lib/","main.back.Application"]

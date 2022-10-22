@@ -1,5 +1,7 @@
 # pull official base image
+
 FROM node:13.12.0-alpine as build
+ARG REACT_APP_BACK_END_URL
 
 # set working directory
 WORKDIR /app
@@ -14,8 +16,10 @@ RUN npm ci --silent
 RUN npm install react-scripts@3.4.1 -g --silent
 
 # add app
+RUN echo "-> $REACT_APP_BACK_END_URL"
 COPY . ./
-RUN npm run build
+RUN REACT_APP_BACK_END_URL=${REACT_APP_BACK_END_URL} \
+    npm run build
 
 # Production env
 FROM nginx:stable-alpine

@@ -14,17 +14,17 @@ services:
     build:
       context: ./back
     ports:
-      - "9001:80"
+      - "9001:9001"
     container_name: spring-api
     stdin_open: true
   react-ui:
     build:
       context: ./frontV2
+      args:
+        REACT_APP_BACK_END_URL: spring-api
     ports:
       - "9000:80"
     container_name: react-ui
     stdin_open: true
-    environment:
-      - "API_URL=production.example.com"
 
 # TODO: Add proper env variables

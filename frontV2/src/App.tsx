@@ -11,11 +11,18 @@ import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import useToast from "./useToast";
 import Loader from "./components/util/Loader";
+import {BACK_URL} from "./constants";
+
 
 function App() {
     useToast();
     const isUserLoading: boolean = useAppSelector<boolean>(state => state.user.loading);
     const isAppLoading: boolean = useAppSelector<boolean>(state => state.app.loading);
+
+
+    useEffect(() => {
+        console.warn(BACK_URL)
+    }, [ BACK_URL ])
 
     const dispatch = useAppDispatch();
     useEffect(() => {

@@ -1,9 +1,10 @@
 import axios, {AxiosResponse} from 'axios';
 import {BACK_URL} from "./constants";
+import {useEffect} from "react";
 
 const REQ_TIMEOUT = 1 * 60 * 1000;
 axios.defaults.timeout = REQ_TIMEOUT;
-axios.defaults.baseURL = BACK_URL;
+axios.defaults.baseURL = process.env.REACT_APP_BACK_END_URL;
 
 export const setupAxiosInterceptors = () => {
     const onResponseSuccess = (response: AxiosResponse<any, any>) => response;

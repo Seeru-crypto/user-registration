@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice, isPending, isRejected} from '@reduxjs/toolkit';
 import axios from "axios";
 import {NEW_USER_URL, SECTOR_URL} from "../constants";
+import {BACK_URL} from "../constants";
 
 
 interface Sector{
@@ -114,7 +115,7 @@ export const appSlice = createSlice({
             .addMatcher(isRejected(getSectors), state => {
                 state.loading = false;
                 state.toastMessage = {
-                    header: "Tekkis viga sektorite pärimisega",
+                    header: `Tekkis viga sektorite pärimisega ${BACK_URL}`,
                     variant: "error"
                 }
             })

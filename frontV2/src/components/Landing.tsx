@@ -28,6 +28,7 @@ const Landing = (): JSX.Element => {
     return (
         <LandingStyle><h1>
             Welcome to user registration
+            <p>BACK url is {process.env.REACT_APP_BACK_END_URL}</p>
         </h1>
             <CTAStyle onClick={(e) => navigateToRegister(e)} href="/register">Sign-up</CTAStyle>
             <div className="table">

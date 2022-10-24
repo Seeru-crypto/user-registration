@@ -21,7 +21,8 @@ services:
     build:
       context: ./frontV2
       args:
-        REACT_APP_BACK_END_URL: spring-api
+        REACT_APP_BACK_END_URL: http://localhost:9001/
+        #REACT_APP_BACK_END_URL: http://spring-api:9001/
     ports:
       - "9000:80"
     container_name: react-ui

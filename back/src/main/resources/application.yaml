@@ -7,4 +7,4 @@ spring:
 server:
   port : 9001
 
-FRONT_URL: "react-ui/"
+FRONT_URL: "http://react-ui:9000/"

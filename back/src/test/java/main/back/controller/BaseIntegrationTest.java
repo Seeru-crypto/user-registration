@@ -21,7 +21,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.persistence.EntityManager;
 
-// TODO: Create simple integration test for postgre
 @ExtendWith(SpringExtension.class)
 @ExtendWith(MockitoExtension.class)
 @Sql("/test-data.sql")

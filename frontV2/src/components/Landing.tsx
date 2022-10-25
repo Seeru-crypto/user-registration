@@ -1,50 +1,53 @@
-import React from "react";
-import styled from "styled-components";
-import {DataTable} from "primereact";
-import {Column} from 'primereact/column';
-import {useAppDispatch, useAppSelector} from "../store";
-import {FormattedExistingUsers} from "../slicers/AppSlice";
-import {CTAStyle} from "./util/Anchor";
-import {MdDelete} from 'react-icons/md';
-import {deleteUser} from "../slicers/UserSlice";
-import {useNavigate} from "react-router-dom";
+import React from 'react';
+import styled from 'styled-components';
+import { DataTable } from 'primereact';
+import { Column } from 'primereact/column';
+import { useAppDispatch, useAppSelector } from '../store';
+import { FormattedExistingUsers } from '../slicers/AppSlice';
+import { CTAStyle } from './util/Anchor';
+import { MdDelete } from 'react-icons/md';
+import { deleteUser } from '../slicers/UserSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Landing = (): JSX.Element => {
-    const users = useAppSelector(state => state.app.users);
-    const dispatch = useAppDispatch();
-    const navigate = useNavigate();
+  const users = useAppSelector((state) => state.app.users);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-    const deleteElement = (row: FormattedExistingUsers): JSX.Element => {
-        return (
-            <MdDelete className="icon" onClick={() => dispatch(deleteUser(row.id))}/>
-        )
-    }
-
-    function navigateToRegister(e: React.MouseEvent<HTMLAnchorElement>){
-        navigate("/register")
-        e.preventDefault();
-    }
-
+  const deleteElement = (row: FormattedExistingUsers): JSX.Element => {
     return (
-        <LandingStyle><h1>
-            Welcome to user registration
-            <p>BACK url is {process.env.REACT_APP_BACK_END_URL}</p>
-        </h1>
-            <CTAStyle onClick={(e) => navigateToRegister(e)} href="/register">Sign-up</CTAStyle>
-            <div className="table">
-                <h3>Existing users</h3>
-                <DataTable value={users} responsiveLayout="scroll">
-                    <Column field="firstName" header="First name"/>
-                    <Column field="age" header="Age"/>
-                    <Column field="sector" body={(row: FormattedExistingUsers) => row.sector.name}
-                            header="Sector"/>
-                    <Column field="delete" body={deleteElement}
-                            header="Delete"/>
-                </DataTable>
-            </div>
-        </LandingStyle>
-    )
-}
+      <MdDelete
+        className="icon"
+        onClick={() => {
+          void dispatch(deleteUser(row.id));
+        }}
+      />
+    );
+  };
+
+  function navigateToRegister(e: React.MouseEvent<HTMLAnchorElement>): void {
+    navigate('/register');
+    e.preventDefault();
+  }
+
+  return (
+    <LandingStyle>
+      <h1>Welcome to user registration</h1>
+      <CTAStyle onClick={(e) => navigateToRegister(e)} href="/register">
+        Sign-up
+      </CTAStyle>
+      <div className="table">
+        <h3>Existing users</h3>
+        <DataTable value={users} responsiveLayout="scroll">
+          <Column field="firstName" header="First name" />
+          <Column field="age" header="Age" />
+          <Column field="sector" body={(row: FormattedExistingUsers) => row.sector.name} header="Sector" />
+          <Column field="delete" body={deleteElement} header="Delete" />
+        </DataTable>
+      </div>
+    </LandingStyle>
+  );
+};
 
 export default Landing;
 
@@ -62,12 +65,12 @@ const LandingStyle = styled.div`
     align-items: center;
     padding: 4rem;
   }
-  
-  .icon{
+
+  .icon {
     color: var(--teal600);
     font-size: var(--size400);
-    :hover{
+    :hover {
       cursor: pointer;
     }
   }
-`
+`;

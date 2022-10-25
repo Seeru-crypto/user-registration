@@ -1,49 +1,41 @@
-import React, {useEffect} from 'react';
-import ComponentRoutes from "./ComponentRoutes";
-import {Steps} from 'primereact/steps';
-import "primereact/resources/themes/lara-light-indigo/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
-import styled from "styled-components";
-import {useAppDispatch, useAppSelector} from "./store";
-import {getSectors, getUsers} from "./slicers/AppSlice";
-import {ToastContainer} from "react-toastify";
+import React, { useEffect } from 'react';
+import ComponentRoutes from './ComponentRoutes';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+import styled from 'styled-components';
+import { useAppDispatch, useAppSelector } from './store';
+import { getSectors, getUsers } from './slicers/AppSlice';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import useToast from "./useToast";
-import Loader from "./components/util/Loader";
-import {BACK_URL} from "./constants";
+import useToast from './useToast';
+import Loader from './components/util/Loader';
 
+function App(): JSX.Element {
+  useToast();
+  const isUserLoading: boolean = useAppSelector<boolean>((state) => state.user.loading);
+  const isAppLoading: boolean = useAppSelector<boolean>((state) => state.app.loading);
 
-function App() {
-    useToast();
-    const isUserLoading: boolean = useAppSelector<boolean>(state => state.user.loading);
-    const isAppLoading: boolean = useAppSelector<boolean>(state => state.app.loading);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    void dispatch(getUsers());
+    void dispatch(getSectors());
+  }, [dispatch]);
 
-
-    useEffect(() => {
-        console.warn(BACK_URL)
-    }, [ BACK_URL ])
-
-    const dispatch = useAppDispatch();
-    useEffect(() => {
-        dispatch(getUsers());
-        dispatch(getSectors());
-    }, [dispatch])
-
-    return (
-        <AppStyle>
-            <ToastContainer className="toastify-container" toastClassName="toastify-toast"/>
-            {
-                isAppLoading || isUserLoading ? <Loader/> : (
-                    <div>
-                        <div className="body">
-                            <ComponentRoutes/>
-                        </div>
-                    </div>
-                )
-            }
-        </AppStyle>
-    )
+  return (
+    <AppStyle>
+      <ToastContainer className="toastify-container" toastClassName="toastify-toast" />
+      {isAppLoading || isUserLoading ? (
+        <Loader />
+      ) : (
+        <div>
+          <div className="body">
+            <ComponentRoutes />
+          </div>
+        </div>
+      )}
+    </AppStyle>
+  );
 }
 
 const AppStyle = styled.div`
@@ -55,7 +47,5 @@ const AppStyle = styled.div`
   .body {
     flex: 1;
   }
-
-`
+`;
 export default App;
-

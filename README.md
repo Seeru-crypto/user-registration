@@ -5,10 +5,6 @@ Given application allows users to create a new account and change their data dur
 
 ## Setup
 1. run gradle build
-2. run docker-compose up
-
-3. Setup database `docker-compose up`
-4. Setup backend `./gradlew bootRun`
-5. Setup frontend `npm i && npm start`
-6. ???
-7. profit at `127.0.0.1:9000`
+2. run `docker-compose up` from project root
+3. ???
+4. profit at `127.0.0.1:9000`

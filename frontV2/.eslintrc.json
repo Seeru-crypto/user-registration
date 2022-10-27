@@ -12,21 +12,19 @@
         "eslint-config-prettier"
     ],
     "parserOptions": {
+        "project": ["./tsconfig.json"],
+
         "ecmaFeatures": {
             "jsx": true
         },
         "ecmaVersion": "latest",
-        "sourceType": "module",
-        "project": "tsconfig.json"
+        "sourceType": "module"
     },
     "plugins": [
         "react",
         "import"
     ],
     "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "project": ["./tsconfig.json"]
-    },
     "rules": {
         "space-before-blocks": 1,
         "array-bracket-spacing": 1,

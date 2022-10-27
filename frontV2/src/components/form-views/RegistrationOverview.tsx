@@ -17,7 +17,7 @@ const RegistrationOverview = (): JSX.Element => {
 
   function onSubmit(): void {
     if (sectorId === undefined) return;
-    const userDto: any = {
+    const userDto: UserDtoProps = {
       firstName,
       lastName,
       age,
@@ -27,7 +27,7 @@ const RegistrationOverview = (): JSX.Element => {
       foodPreference,
       allergyInfo,
       agreeToTerms,
-      sectors: [{ id: sectorId }],
+      sectors: [{ id: sectorId, children:[] }],
     };
     void dispatch(saveUser(userDto)).then(() => {
       dispatch(reverseNavigateToLanding());

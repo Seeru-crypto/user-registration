@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, isPending, isRejected} from '@reduxjs/toolkit';
-import {getUsers, initialToastMessage, ToastMessage} from './AppSlice';
+import {getUsers, initialToastMessage, Sector, ToastMessage} from './AppSlice';
 import axios from 'axios';
 import {NEW_USER_URL} from '../constants';
 
@@ -22,7 +22,7 @@ export interface UserMicDataForm {
 }
 
 export interface UserDtoProps extends UserPersonalDataForm, UserContactDataForm, UserMicDataForm {
-  // sectors?: Sector[];
+  sectors?: Sector[];
 }
 
 export interface InitialState extends UserPersonalDataForm, UserContactDataForm, UserMicDataForm {

@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice, isPending, isRejected } from '@reduxjs/toolkit';
-import { getUsers, initialToastMessage, Sector, ToastMessage } from './AppSlice';
+import {createAsyncThunk, createSlice, isPending, isRejected} from '@reduxjs/toolkit';
+import {getUsers, initialToastMessage, ToastMessage} from './AppSlice';
 import axios from 'axios';
-import { NEW_USER_URL } from '../constants';
+import {NEW_USER_URL} from '../constants';
 
 export interface UserPersonalDataForm {
   firstName: string;

@@ -17,7 +17,7 @@ const RegistrationOverview = (): JSX.Element => {
 
   function onSubmit(): void {
     if (sectorId === undefined) return;
-    const userDto: UserDtoProps = {
+    const userDto: any = {
       firstName,
       lastName,
       age,

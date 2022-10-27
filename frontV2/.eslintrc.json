@@ -30,6 +30,7 @@
     "rules": {
         "space-before-blocks": 1,
         "array-bracket-spacing": 1,
+        "@typescript-eslint/no-unused-vars" : 1,
         "@typescript-eslint/restrict-template-expressions": [
             2,
             {

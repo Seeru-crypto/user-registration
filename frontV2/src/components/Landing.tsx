@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DataTable } from 'primereact';
+import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { useAppDispatch, useAppSelector } from '../store';
 import { FormattedExistingUsers } from '../slicers/AppSlice';

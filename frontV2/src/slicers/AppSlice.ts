@@ -27,7 +27,7 @@ interface ExistingUserState extends BaseUserState {
 
 export interface FormattedExistingUsers extends BaseUserState {
   sector: {
-    name: string;
+    name?: string;
     id: number;
   };
 }

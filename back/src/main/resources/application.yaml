@@ -2,10 +2,14 @@ spring:
   datasource:
     username: "root"
     password: "root"
-#    url: jdbc:postgresql://db:5432/user_reg_DB
-    url: { SPRING_DATASOURCE_URL }
+#  docker  url: jdbc:postgresql://db:5432/user_reg_DB
+# dev  localhost:9002/user_reg_DB
+    url: jdbc:postgresql://${SPRING_DB_URL}
     driverClassName: org.postgresql.Driver
 server:
   port : 9001
 
-FRONT_URL: "http://react-ui:9000/"
+FRONT_URL: ${SPRING_REACT_UI_URL}
+
+# Docker ulr FRONT_URL: "http://react-ui:9000/"
+# Dev url FRONT_URL: "http://localhost:9000/"

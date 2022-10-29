@@ -37,7 +37,7 @@ const PersonalDataForm = (): JSX.Element => {
   useEffect(() => {
     const formattedList = sectors.map((sector: SectorProps) => sectorToTree(sector));
     setFormattedSectors(formattedList);
-  }, [sectors, sectorToTree]);
+  }, [sectors]);
 
   const {
     register,

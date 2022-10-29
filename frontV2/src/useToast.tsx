@@ -43,6 +43,11 @@ const useToast = (): void => {
 
     if (userToast.header !== '') toastCaller(userToast, 'user');
     if (appToast.header !== '') toastCaller(appToast, 'app');
+
+    return () => {
+      dispatch(resetAppToast());
+      dispatch(resetUserToast());
+    };
   }, [userToast, appToast, dispatch, generalToastOptions]);
 };
 

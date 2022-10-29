@@ -1,7 +1,7 @@
-import {createAsyncThunk, createSlice, isPending, isRejected} from '@reduxjs/toolkit';
-import {getUsers, initialToastMessage, Sector, ToastMessage} from './AppSlice';
+import { createAsyncThunk, createSlice, isPending, isRejected } from '@reduxjs/toolkit';
+import { getUsers, initialToastMessage, Sector, ToastMessage } from './AppSlice';
 import axios from 'axios';
-import {NEW_USER_URL} from '../constants';
+import { NEW_USER_URL } from '../constants';
 
 export interface UserPersonalDataForm {
   firstName: string;
@@ -46,7 +46,7 @@ export const deleteUser = createAsyncThunk('delete_user', async (userId: number,
 const initialState: InitialState = {
   firstName: '',
   lastName: '',
-  age: 0,
+  age: null,
   sectorId: 0,
   phoneNumber: 0,
   emailAddress: '',

@@ -1,11 +1,31 @@
-version: '2'
+version: '3'
 services:
   db:
     image: postgres:14.1
+    container_name: db
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=helmes
+      - POSTGRES_DB=user_reg_DB
       - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
-      - 8881:5432
+      - 9002:5432
+  spring-api:
+    build:
+      context: ./back
+      args:
+        SPRING_REACT_UI_URL: http://react-ui:9000/
+        SPRING_DB_URL: db:5432/user_reg_DB
+    ports:
+      - "9001:9001"
+    container_name: spring-api
+    stdin_open: true
+  react-ui:
+    build:
+      context: ./frontV2
+      args:
+        REACT_APP_BACK_END_URL: http://localhost:9001/
+    ports:
+      - "9000:80"
+    container_name: react-ui
+    stdin_open: true

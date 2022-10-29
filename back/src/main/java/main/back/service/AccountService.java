@@ -18,10 +18,11 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
+
     private final SectorMapper sectorMapper;
 
     @Transactional(readOnly = true)
-    public List<Account> findAll(){
+    public List<Account> findAll() {
         return accountRepository.findAll();
     }
 
@@ -34,11 +35,18 @@ public class AccountService {
         if (accountDto.getSectors().isEmpty()) {
             throw new ResponseStatusException(BAD_REQUEST, "No sector selected");
         }
-        Account newAccount = new Account()
-                .setName(accountDto.getName())
-                .setDateAdded(Instant.now())
-                .setSectors(sectorMapper.toEntities(accountDto.getSectors()))
-                .setAgreeToTerms(true);
+        Account newAccount = new Account();
+        newAccount.setAge(accountDto.getAge());
+        newAccount.setPhoneNumber(accountDto.getPhoneNumber());
+        newAccount.setEmailAddress(accountDto.getEmailAddress());
+        newAccount.setSeatNr(accountDto.getSeatNr());
+        newAccount.setFoodPreference(accountDto.getFoodPreference());
+        newAccount.setAllergyInfo(accountDto.getAllergyInfo());
+        newAccount.setDateAdded(Instant.now());
+        newAccount.setFirstName(accountDto.getFirstName());
+        newAccount.setLastName(accountDto.getLastName());
+        newAccount.setSectors(sectorMapper.toEntities(accountDto.getSectors()));
+        newAccount.setAgreeToTerms(true);
         return accountRepository.save(newAccount).getId();
     }
 
@@ -53,15 +61,31 @@ public class AccountService {
         if (accountDto.getSectors().isEmpty()) {
             throw new ResponseStatusException(BAD_REQUEST, "No sector selected");
         }
+        Account existingAccount = getById(accountDto.getId());
+        existingAccount.setDateUpdated(Instant.now());
+        existingAccount.setFirstName(accountDto.getFirstName());
+        existingAccount.setLastName(accountDto.getLastName());
+        existingAccount.setAge(accountDto.getAge());
+        existingAccount.setPhoneNumber(accountDto.getPhoneNumber());
+        existingAccount.setEmailAddress(accountDto.getEmailAddress());
+        existingAccount.setSeatNr(accountDto.getSeatNr());
+        existingAccount.setFoodPreference(accountDto.getFoodPreference());
+        existingAccount.setAgreeToTerms(true);
+        existingAccount.setAllergyInfo(accountDto.getAllergyInfo());
+        existingAccount.setSectors(sectorMapper.toEntities(accountDto.getSectors()));
 
-        return getById(accountDto.getId())
-                .setDateUpdated(Instant.now())
-                .setName(accountDto.getName())
-                .setSectors(sectorMapper.toEntities(accountDto.getSectors()));
+        return existingAccount;
     }
 
     @Transactional(readOnly = true)
     public Account getById(Long id) {
         return accountRepository.getReferenceById(id);
+    }
+
+    public void delete(Long accountID) {
+        if (!accountRepository.existsById(accountID)){
+            throw new ResponseStatusException(BAD_REQUEST, "No such ID exists");
+        }
+        accountRepository.deleteById(accountID);
     }
 }

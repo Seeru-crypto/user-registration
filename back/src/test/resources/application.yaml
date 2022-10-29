@@ -1,6 +1,7 @@
 spring:
   datasource:
-    url: jdbc:tc:postgresql:14.1:///car_invoice
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:postgresql:15.0:///user_reg_DB?TC_TMPFS=/testtmpfs:rw
+    username: root
 
 FRONT_URL: "http://localhost:3000/"

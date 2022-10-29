@@ -16,6 +16,10 @@ public class SectorDto {
 
     private String name;
 
+    private Long parentId;
+
+    private int value;
+
     private List<SectorDto> children = new ArrayList<>();
 
 }
